@@ -57,7 +57,7 @@ function inferRole(title: string): ContactRole {
 export function parseLinkedInCSV(csvText: string): Contact[] {
   const result = Papa.parse(csvText, { header: true, skipEmptyLines: true });
 
-  return result.data.map((row: Record<string, string>) => {
+  return (result.data as Record<string, string>[]).map((row) => {
     const firstName = row["First Name"] || row["firstName"] || row["first_name"] || "";
     const lastName = row["Last Name"] || row["lastName"] || row["last_name"] || "";
     const company = row["Company"] || row["company"] || row["Organization"] || "";

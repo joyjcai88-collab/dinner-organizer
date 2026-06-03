@@ -1,6 +1,17 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-dm-serif);
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --color-hf-dark: #1A1A1A;
+  --color-hf-cream: #F5F0EB;
+  --color-hf-gold: #E8C86D;
+  --color-hf-gold-light: #F2DFA0;
+  --color-hf-text: #1A1A1A;
+  --color-hf-muted: #8A8580;
+  --color-hf-border: #D5CFC7;
+  --color-hf-card: #FFFFFF;
+  --color-hf-hover: #EDE8E2;
 }

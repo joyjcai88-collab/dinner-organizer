@@ -51,38 +51,49 @@ export default function AddContactModal({ open, onClose, onSave }: Props) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-6">Add Contact</h2>
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+      <div className="bg-white border border-hf-border max-w-md w-full p-8">
+        <h2 className="font-[family-name:var(--font-dm-serif)] text-2xl text-hf-text mb-1">
+          Add Contact
+        </h2>
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-hf-muted mb-6">
+          New dinner guest
+        </p>
 
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+              <label className="block font-mono text-[10px] uppercase tracking-[0.2em] text-hf-muted mb-1.5">
+                First Name
+              </label>
               <input
                 type="text"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
+                className="w-full px-3 py-2.5 border border-hf-border rounded-none bg-white focus:ring-2 focus:ring-hf-gold focus:border-hf-gold text-hf-text text-sm"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+              <label className="block font-mono text-[10px] uppercase tracking-[0.2em] text-hf-muted mb-1.5">
+                Last Name
+              </label>
               <input
                 type="text"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
+                className="w-full px-3 py-2.5 border border-hf-border rounded-none bg-white focus:ring-2 focus:ring-hf-gold focus:border-hf-gold text-hf-text text-sm"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
+            <label className="block font-mono text-[10px] uppercase tracking-[0.2em] text-hf-muted mb-1.5">
+              Role
+            </label>
             <select
               value={role}
               onChange={(e) => setRole(e.target.value as ContactRole)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
+              className="w-full px-3 py-2.5 border border-hf-border rounded-none bg-white focus:ring-2 focus:ring-hf-gold focus:border-hf-gold text-hf-text text-sm"
             >
               {ROLES.map((r) => (
                 <option key={r} value={r}>
@@ -93,59 +104,68 @@ export default function AddContactModal({ open, onClose, onSave }: Props) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Company</label>
+            <label className="block font-mono text-[10px] uppercase tracking-[0.2em] text-hf-muted mb-1.5">
+              Company
+            </label>
             <input
               type="text"
               value={company}
               onChange={(e) => setCompany(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
+              className="w-full px-3 py-2.5 border border-hf-border rounded-none bg-white focus:ring-2 focus:ring-hf-gold focus:border-hf-gold text-hf-text text-sm"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+            <label className="block font-mono text-[10px] uppercase tracking-[0.2em] text-hf-muted mb-1.5">
+              Title
+            </label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
+              className="w-full px-3 py-2.5 border border-hf-border rounded-none bg-white focus:ring-2 focus:ring-hf-gold focus:border-hf-gold text-hf-text text-sm"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <label className="block font-mono text-[10px] uppercase tracking-[0.2em] text-hf-muted mb-1.5">
+              Email
+            </label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
+              className="w-full px-3 py-2.5 border border-hf-border rounded-none bg-white focus:ring-2 focus:ring-hf-gold focus:border-hf-gold text-hf-text text-sm"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">LinkedIn URL</label>
+            <label className="block font-mono text-[10px] uppercase tracking-[0.2em] text-hf-muted mb-1.5">
+              LinkedIn URL
+            </label>
             <input
               type="url"
               value={linkedinUrl}
               onChange={(e) => setLinkedinUrl(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
+              className="w-full px-3 py-2.5 border border-hf-border rounded-none bg-white focus:ring-2 focus:ring-hf-gold focus:border-hf-gold text-hf-text text-sm"
             />
           </div>
         </div>
 
-        <div className="flex gap-3 mt-6">
+        <div className="flex gap-3 mt-8">
           <button
             onClick={onClose}
-            className="flex-1 px-4 py-2.5 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
+            className="flex-1 px-4 py-2.5 border border-hf-border text-hf-text font-mono text-xs uppercase tracking-[0.15em] hover:bg-hf-hover transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleSave}
             disabled={!firstName.trim()}
-            className="flex-1 px-4 py-2.5 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            className="relative flex-1 px-4 py-2.5 bg-hf-dark text-white font-mono text-xs uppercase tracking-[0.15em] hover:bg-hf-dark/90 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           >
             Add Contact
+            <span className="absolute -bottom-1 -right-1 w-2 h-2 bg-hf-gold" />
           </button>
         </div>
       </div>

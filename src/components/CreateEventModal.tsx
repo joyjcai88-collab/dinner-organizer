@@ -65,83 +65,94 @@ export default function CreateEventModal({ open, onClose, onSave, editing, allCo
 
   const guestContacts = allContacts.filter((c) => guests.includes(c.id));
 
+  const inputClass =
+    "w-full px-3 py-2.5 border border-hf-border rounded-none bg-white focus:ring-2 focus:ring-hf-gold focus:border-hf-gold text-hf-text text-sm";
+  const labelClass =
+    "block font-mono text-[10px] uppercase tracking-[0.2em] text-hf-muted mb-1.5";
+
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-xl max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto">
-        <h2 className="text-xl font-bold text-gray-900 mb-6">
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+      <div className="bg-white border border-hf-border max-w-2xl w-full p-8 max-h-[90vh] overflow-y-auto">
+        <h2 className="font-[family-name:var(--font-dm-serif)] text-2xl text-hf-text mb-1">
           {editing ? "Edit Event" : "Create Dinner Event"}
         </h2>
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-hf-muted mb-6">
+          {editing ? "Update event details" : "Set up a new dinner"}
+        </p>
 
         <div className="grid grid-cols-2 gap-4 mb-6">
           <div className="col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Event Name</label>
+            <label className={labelClass}>Event Name</label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Q2 Founder Dinner"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
+              className={inputClass}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Host Firm</label>
+            <label className={labelClass}>Host Firm</label>
             <input
               type="text"
               value={hostFirm}
               onChange={(e) => setHostFirm(e.target.value)}
               placeholder="e.g. Sequoia Capital"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
+              className={inputClass}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Venue</label>
+            <label className={labelClass}>Venue</label>
             <input
               type="text"
               value={venue}
               onChange={(e) => setVenue(e.target.value)}
               placeholder="e.g. The Battery SF"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
+              className={inputClass}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
+            <label className={labelClass}>Date</label>
             <input
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
+              className={inputClass}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Time</label>
+            <label className={labelClass}>Time</label>
             <input
               type="time"
               value={time}
               onChange={(e) => setTime(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
+              className={inputClass}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Capacity</label>
+            <label className={labelClass}>Capacity</label>
             <input
               type="number"
               value={capacity}
               onChange={(e) => setCapacity(parseInt(e.target.value) || 10)}
               min={2}
               max={50}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
+              className={inputClass}
             />
           </div>
         </div>
 
         <div className="mb-6">
-          <h3 className="text-sm font-semibold text-gray-900 mb-3">
-            Role Mix <span className="font-normal text-gray-400">({totalMix} seats allocated)</span>
+          <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-hf-muted mb-3">
+            Role Mix{" "}
+            <span className="text-hf-muted/60">({totalMix} seats allocated)</span>
           </h3>
           <div className="grid grid-cols-5 gap-3">
             {(Object.keys(roleMix) as Array<keyof RoleMix>).map((role) => (
               <div key={role}>
-                <label className="block text-xs text-gray-500 capitalize mb-1">{role}</label>
+                <label className="block text-xs text-hf-muted capitalize mb-1">
+                  {role}
+                </label>
                 <input
                   type="number"
                   value={roleMix[role]}
@@ -150,29 +161,32 @@ export default function CreateEventModal({ open, onClose, onSave, editing, allCo
                   }
                   min={0}
                   max={capacity}
-                  className="w-full px-2 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 text-gray-900"
+                  className="w-full px-2 py-1.5 border border-hf-border rounded-none text-sm focus:ring-2 focus:ring-hf-gold text-hf-text"
                 />
               </div>
             ))}
           </div>
         </div>
 
-        <div className="mb-6 p-4 bg-indigo-50 rounded-xl">
+        <div className="mb-6 p-5 bg-hf-dark text-white">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-semibold text-indigo-900">Randomize Guest List</h3>
+            <h3 className="font-mono text-xs uppercase tracking-[0.15em]">
+              Randomize Guest List
+            </h3>
             <button
               onClick={handleRandomize}
-              className="px-4 py-1.5 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition-colors"
+              className="relative px-4 py-1.5 bg-hf-gold text-hf-dark font-mono text-xs uppercase tracking-[0.15em] hover:bg-hf-gold-light transition-colors"
             >
               🎲 Randomize
+              <span className="absolute -bottom-1 -right-1 w-1.5 h-1.5 bg-white" />
             </button>
           </div>
-          <label className="flex items-center gap-2 text-sm text-indigo-800 mb-2">
+          <label className="flex items-center gap-2 text-sm text-white/80 mb-2">
             <input
               type="checkbox"
               checked={excludeRecent}
               onChange={(e) => setExcludeRecent(e.target.checked)}
-              className="rounded border-gray-300 text-indigo-600"
+              className="rounded-none border-white/30 text-hf-gold accent-hf-gold"
             />
             Exclude recent attendees (last {recentDays} days)
           </label>
@@ -183,21 +197,21 @@ export default function CreateEventModal({ open, onClose, onSave, editing, allCo
               max={90}
               value={recentDays}
               onChange={(e) => setRecentDays(parseInt(e.target.value))}
-              className="w-full accent-indigo-600"
+              className="w-full accent-hf-gold"
             />
           )}
         </div>
 
         {guestContacts.length > 0 && (
           <div className="mb-6">
-            <h3 className="text-sm font-semibold text-gray-900 mb-2">
+            <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-hf-muted mb-2">
               Guest List ({guestContacts.length})
             </h3>
             <div className="flex flex-wrap gap-2">
               {guestContacts.map((g) => (
                 <span
                   key={g.id}
-                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 text-xs bg-hf-gold/20 text-hf-dark"
                 >
                   {g.firstName} {g.lastName}
                   <button
@@ -213,28 +227,29 @@ export default function CreateEventModal({ open, onClose, onSave, editing, allCo
         )}
 
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+          <label className={labelClass}>Notes</label>
           <textarea
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             rows={2}
             placeholder="Dietary restrictions, theme, talking points..."
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
+            className={inputClass}
           />
         </div>
 
         <div className="flex gap-3">
           <button
             onClick={onClose}
-            className="flex-1 px-4 py-2.5 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
+            className="flex-1 px-4 py-2.5 border border-hf-border text-hf-text font-mono text-xs uppercase tracking-[0.15em] hover:bg-hf-hover transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleSave}
-            className="flex-1 px-4 py-2.5 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition-colors"
+            className="relative flex-1 px-4 py-2.5 bg-hf-dark text-white font-mono text-xs uppercase tracking-[0.15em] hover:bg-hf-dark/90 transition-colors"
           >
             {editing ? "Save Changes" : "Create Event"}
+            <span className="absolute -bottom-1 -right-1 w-2 h-2 bg-hf-gold" />
           </button>
         </div>
       </div>

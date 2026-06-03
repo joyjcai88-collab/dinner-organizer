@@ -114,80 +114,89 @@ export default function Home() {
   }, [contacts]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex items-center justify-between">
+    <div className="min-h-screen bg-hf-cream">
+      {/* Dark header */}
+      <header className="bg-hf-dark">
+        <div className="max-w-7xl mx-auto px-6 py-10">
+          <div className="flex items-end justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Dinner Organizer</h1>
-              <p className="text-sm text-gray-500 mt-0.5">
+              <h1 className="font-[family-name:var(--font-dm-serif)] text-4xl text-white">
+                Dinner Organizer
+              </h1>
+              <p className="text-sm text-hf-muted mt-2 font-mono uppercase tracking-widest">
                 Founder & engineer dinners for VC ecosystem events
               </p>
             </div>
-            <div className="flex items-center gap-4">
-              <div className="text-right text-sm">
-                <p className="font-medium text-gray-900">{contacts.length} contacts</p>
-                <p className="text-gray-500">{events.length} events</p>
-              </div>
+            <div className="text-right">
+              <p className="text-white font-mono text-sm uppercase tracking-wider">
+                {contacts.length} contacts
+              </p>
+              <p className="text-hf-muted font-mono text-xs uppercase tracking-wider mt-1">
+                {events.length} events
+              </p>
             </div>
+          </div>
+        </div>
+
+        {/* Nav tabs */}
+        <div className="border-t border-white/10">
+          <div className="max-w-7xl mx-auto flex">
+            <button
+              onClick={() => setTab("contacts")}
+              className={`flex-1 py-4 font-mono text-sm uppercase tracking-[0.2em] transition-colors border-r border-white/10 ${
+                tab === "contacts"
+                  ? "text-hf-gold"
+                  : "text-white/60 hover:text-white"
+              }`}
+            >
+              Contacts
+            </button>
+            <button
+              onClick={() => setTab("events")}
+              className={`flex-1 py-4 font-mono text-sm uppercase tracking-[0.2em] transition-colors ${
+                tab === "events"
+                  ? "text-hf-gold"
+                  : "text-white/60 hover:text-white"
+              }`}
+            >
+              Events
+            </button>
           </div>
         </div>
       </header>
 
+      {/* Role counts bar */}
       {contacts.length > 0 && (
-        <div className="bg-white border-b border-gray-200">
-          <div className="max-w-7xl mx-auto px-6 py-3 flex gap-4">
+        <div className="border-b border-hf-border">
+          <div className="max-w-7xl mx-auto px-6 py-3 flex gap-6">
             {Object.entries(roleCounts).map(([role, count]) => (
-              <div
-                key={role}
-                className="flex items-center gap-2 px-3 py-1.5 bg-gray-50 rounded-lg"
-              >
-                <span className="text-xs text-gray-500 capitalize">{role}</span>
-                <span className="text-sm font-semibold text-gray-900">{count}</span>
+              <div key={role} className="flex items-center gap-2">
+                <span className="font-mono text-xs uppercase tracking-widest text-hf-muted">
+                  {role}
+                </span>
+                <span className="text-sm font-semibold text-hf-text">{count}</span>
               </div>
             ))}
           </div>
         </div>
       )}
 
-      <div className="max-w-7xl mx-auto px-6 pt-6">
-        <div className="flex gap-1 bg-gray-100 rounded-xl p-1 w-fit mb-6">
-          <button
-            onClick={() => setTab("contacts")}
-            className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${
-              tab === "contacts"
-                ? "bg-white text-gray-900 shadow-sm"
-                : "text-gray-500 hover:text-gray-700"
-            }`}
-          >
-            Contacts
-          </button>
-          <button
-            onClick={() => setTab("events")}
-            className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${
-              tab === "events"
-                ? "bg-white text-gray-900 shadow-sm"
-                : "text-gray-500 hover:text-gray-700"
-            }`}
-          >
-            Events
-          </button>
-        </div>
-
+      {/* Content */}
+      <div className="max-w-7xl mx-auto px-6 pt-8 pb-16">
         {tab === "contacts" && (
           <div>
-            <div className="flex items-center gap-3 mb-6 flex-wrap">
+            <div className="flex items-center gap-3 mb-8 flex-wrap">
               <input
                 type="text"
                 placeholder="Search contacts..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg w-64 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
+                className="px-4 py-2.5 border border-hf-border rounded-none bg-white w-64 focus:ring-2 focus:ring-hf-gold focus:border-hf-gold text-hf-text placeholder:text-hf-muted text-sm"
               />
               <select
                 value={roleFilter}
                 onChange={(e) => setRoleFilter(e.target.value as ContactRole | "all")}
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 text-gray-900"
+                className="px-3 py-2.5 border border-hf-border rounded-none bg-white focus:ring-2 focus:ring-hf-gold text-hf-text font-mono text-xs uppercase tracking-wider"
               >
                 <option value="all">All roles</option>
                 <option value="founder">Founders</option>
@@ -199,33 +208,35 @@ export default function Home() {
               <div className="flex-1" />
               <button
                 onClick={() => setAddContactOpen(true)}
-                className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                className="relative px-5 py-2.5 bg-white border border-hf-border text-hf-text font-mono text-xs uppercase tracking-[0.15em] hover:bg-hf-hover transition-colors"
               >
                 + Add Contact
               </button>
               <button
                 onClick={() => setLinkedinOpen(true)}
-                className="px-4 py-2 bg-[#0A66C2] text-white rounded-lg text-sm font-medium hover:bg-[#004182] transition-colors"
+                className="relative px-5 py-2.5 bg-hf-dark text-white font-mono text-xs uppercase tracking-[0.15em] hover:bg-hf-dark/90 transition-colors"
               >
                 LinkedIn Import
+                <span className="absolute -bottom-1 -right-1 w-2 h-2 bg-hf-gold" />
               </button>
               <button
                 onClick={() => setImportOpen(true)}
-                className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors"
+                className="relative px-5 py-2.5 bg-hf-gold text-hf-dark font-mono text-xs uppercase tracking-[0.15em] hover:bg-hf-gold-light transition-colors"
               >
                 Import CSV
+                <span className="absolute -bottom-1 -right-1 w-2 h-2 bg-hf-dark" />
               </button>
               {contacts.length > 0 && (
                 <button
                   onClick={handleExport}
-                  className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                  className="px-5 py-2.5 bg-white border border-hf-border text-hf-text font-mono text-xs uppercase tracking-[0.15em] hover:bg-hf-hover transition-colors"
                 >
                   Export
                 </button>
               )}
             </div>
 
-            <div className="bg-white rounded-2xl border border-gray-200 p-6">
+            <div className="bg-white border border-hf-border p-6">
               <ContactTable
                 contacts={filteredContacts}
                 onRefresh={refresh}
@@ -242,8 +253,8 @@ export default function Home() {
 
         {tab === "events" && (
           <div>
-            <div className="flex items-center justify-between mb-6">
-              <p className="text-sm text-gray-500">
+            <div className="flex items-center justify-between mb-8">
+              <p className="font-mono text-xs uppercase tracking-widest text-hf-muted">
                 {events.length === 0
                   ? "No events yet — create one to get started"
                   : `${events.length} event${events.length === 1 ? "" : "s"}`}
@@ -253,22 +264,25 @@ export default function Home() {
                   setEditingEvent(null);
                   setCreateEventOpen(true);
                 }}
-                className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors"
+                className="relative px-5 py-2.5 bg-hf-gold text-hf-dark font-mono text-xs uppercase tracking-[0.15em] hover:bg-hf-gold-light transition-colors"
               >
                 + Create Event
+                <span className="absolute -bottom-1 -right-1 w-2 h-2 bg-hf-dark" />
               </button>
             </div>
 
             {events.length === 0 ? (
-              <div className="text-center py-16 text-gray-500 bg-white rounded-2xl border border-gray-200">
+              <div className="text-center py-20 bg-white border border-hf-border">
                 <div className="text-5xl mb-4">🍽️</div>
-                <p className="text-lg">No dinner events yet</p>
-                <p className="text-sm mt-1">
+                <p className="font-[family-name:var(--font-dm-serif)] text-2xl text-hf-text">
+                  No dinner events yet
+                </p>
+                <p className="text-sm mt-2 text-hf-muted">
                   Create an event and randomize your guest list from your contacts
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {events.map((event) => (
                   <EventCard
                     key={event.id}

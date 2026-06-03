@@ -18,6 +18,7 @@ import AddContactModal from "@/components/AddContactModal";
 import CreateEventModal from "@/components/CreateEventModal";
 import EventCard from "@/components/EventCard";
 import LinkedInImport from "@/components/LinkedInImport";
+import LinkedInConnect from "@/components/LinkedInConnect";
 
 type Tab = "contacts" | "events";
 
@@ -127,13 +128,16 @@ export default function Home() {
                 Founder & engineer dinners for VC ecosystem events
               </p>
             </div>
-            <div className="text-right">
-              <p className="text-white font-mono text-sm uppercase tracking-wider">
-                {contacts.length} contacts
-              </p>
-              <p className="text-hf-muted font-mono text-xs uppercase tracking-wider mt-1">
-                {events.length} events
-              </p>
+            <div className="flex items-center gap-6">
+              <LinkedInConnect onImport={handleImport} />
+              <div className="text-right">
+                <p className="text-white font-mono text-sm uppercase tracking-wider">
+                  {contacts.length} contacts
+                </p>
+                <p className="text-hf-muted font-mono text-xs uppercase tracking-wider mt-1">
+                  {events.length} events
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -211,13 +215,6 @@ export default function Home() {
                 className="relative px-5 py-2.5 bg-white border border-hf-border text-hf-text font-mono text-xs uppercase tracking-[0.15em] hover:bg-hf-hover transition-colors"
               >
                 + Add Contact
-              </button>
-              <button
-                onClick={() => setLinkedinOpen(true)}
-                className="relative px-5 py-2.5 bg-hf-dark text-white font-mono text-xs uppercase tracking-[0.15em] hover:bg-hf-dark/90 transition-colors"
-              >
-                LinkedIn Import
-                <span className="absolute -bottom-1 -right-1 w-2 h-2 bg-hf-gold" />
               </button>
               <button
                 onClick={() => setImportOpen(true)}

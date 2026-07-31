@@ -1,49 +1,61 @@
-export type ContactRole = "founder" | "engineer" | "vc" | "operator" | "other";
+export type Role = "founder" | "engineer" | "vc" | "operator" | "other";
+export type SocialEnergy = "high" | "medium" | "low";
 
-export interface Contact {
+export interface Guest {
   id: string;
-  firstName: string;
-  lastName: string;
-  role: ContactRole;
+  name: string;
+  role: Role;
   company: string;
   title: string;
   email: string;
   linkedinUrl: string;
-  tags: string[];
-  notes: string;
-  eventsAttended: number;
-  lastEventDate: string | null;
+  sector: string | null;
+  stage: string | null;
+  strength: number; // 1–5, relationship strength
+  socialEnergy: SocialEnergy;
+  hosted: number; // dinners attended
+  lastSeen: string | null; // ISO date
+  notes: string | null; // table memory: dietary, habits, seating flags
   createdAt: string;
 }
 
-export interface DinnerEvent {
+export interface Table {
   id: string;
   name: string;
-  date: string;
-  time: string;
+  date: string; // ISO date
   venue: string;
-  hostFirm: string;
-  capacity: number;
-  guests: string[]; // contact IDs
-  status: "draft" | "confirmed" | "completed" | "cancelled";
-  roleMix: RoleMix;
-  notes: string;
-  createdAt: string;
+  coHost: string | null; // guest name
+  seats: number;
+  status: "past" | "upcoming";
+  guestIds: string[];
+  seating: string[] | null; // guest ids in order around the table
+  note: string | null;
 }
 
-export interface RoleMix {
-  founder: number;
-  engineer: number;
-  vc: number;
-  operator: number;
-  other: number;
+export const OUTCOMES = [
+  "no follow-through",
+  "stayed in touch",
+  "working together",
+  "hire",
+  "investment",
+  "co-founded",
+] as const;
+
+export type IntroOutcome = (typeof OUTCOMES)[number];
+
+export interface Intro {
+  id: string;
+  tableId: string;
+  a: string; // guest id
+  b: string; // guest id
+  outcome: IntroOutcome;
+  detail: string | null;
 }
 
-export interface RandomizationConfig {
-  capacity: number;
-  roleMix: RoleMix;
-  excludeRecentAttendees: boolean;
-  recentWindowDays: number;
-  excludeContactIds: string[];
-  preferTags: string[];
-}
+export const ROLE_LABELS: Record<Role, string> = {
+  founder: "Founder",
+  engineer: "Engineer",
+  vc: "Investor",
+  operator: "Operator",
+  other: "Other",
+};

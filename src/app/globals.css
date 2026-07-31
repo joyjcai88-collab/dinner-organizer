@@ -1,17 +1,127 @@
 @import "tailwindcss";
 
-@theme inline {
-  --font-sans: var(--font-inter);
-  --font-serif: var(--font-dm-serif);
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+@theme {
+  /* Serif is a system stack; mono is IBM Plex Mono loaded in layout.tsx */
+  --font-sans: Georgia, "Times New Roman", Times, serif;
+  --font-serif: Georgia, "Times New Roman", Times, serif;
+  --font-mono: var(--font-ibm-plex-mono), "SF Mono", SFMono-Regular, Menlo,
+    Monaco, Consolas, monospace;
 
-  --color-hf-dark: #1A1A1A;
-  --color-hf-cream: #F5F0EB;
-  --color-hf-gold: #E8C86D;
-  --color-hf-gold-light: #F2DFA0;
-  --color-hf-text: #1A1A1A;
-  --color-hf-muted: #8A8580;
-  --color-hf-border: #D5CFC7;
-  --color-hf-card: #FFFFFF;
-  --color-hf-hover: #EDE8E2;
+  /* Surfaces */
+  --color-paper: #ffffff;
+  --color-card: #ffffff;
+  --color-tile: #f5f5f5;
+  --color-tile-hi: #efefef;
+  --color-wash: #f5f5f5;
+  --color-line: #e6e6e6;
+
+  /* Ink */
+  --color-ink: #000000;
+  --color-text: #000000;
+  --color-secondary: #757575;
+  --color-muted: #a3a3a3;
+
+  /* Controls */
+  --color-pill: #ececec;
+  --color-pill-hi: #e0e0e0;
+
+  /* Accents */
+  --color-accent: #00b6c4;
+  --color-cyan-bright: #00ffff;
+  --color-danger: #b4433f;
+  --color-danger-dim: #fbf0ef;
+  --color-warn: #927019;
+  --color-warn-dim: #f8f2e2;
+  --color-success: #00949f;
+  --color-success-dim: #e4f6f8;
+
+  /* Legacy aliases kept so any stray utility still resolves */
+  --color-wine: #00b6c4;
+  --color-wine-light: #00949f;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-text);
+    font-family: var(--font-serif);
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: #ffffff;
+  }
+
+  input,
+  select,
+  textarea {
+    font-family: var(--font-serif);
+  }
+
+  input[type="range"],
+  input[type="checkbox"] {
+    accent-color: var(--color-accent);
+  }
+}
+
+@layer components {
+  /* Bracket tabs: [ ] active, [N] inactive */
+  .tab {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid transparent;
+    font-family: var(--font-serif);
+    font-size: 17px;
+    color: var(--color-secondary);
+  }
+
+  .tab::before {
+    content: "[" attr(data-key) "]";
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--color-muted);
+  }
+
+  .tab:hover {
+    color: var(--color-text);
+  }
+
+  .tab.active {
+    color: var(--color-text);
+    border-bottom-color: var(--color-ink);
+  }
+
+  .tab.active::before {
+    content: "[ ]";
+    color: var(--color-text);
+  }
+
+  /* Borderless field with a hairline underline and a cyan focus signal */
+  .field {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid var(--color-line);
+    border-radius: 0;
+    background-color: transparent;
+    padding: 7px 0;
+    font-family: var(--font-serif);
+    font-size: 15px;
+    color: var(--color-text);
+  }
+
+  .field::placeholder {
+    color: var(--color-muted);
+  }
+
+  .field:focus {
+    outline: none;
+    border-bottom-color: var(--color-accent);
+  }
+
+  .field:disabled {
+    color: var(--color-muted);
+  }
 }

@@ -1,0 +1,113 @@
+import { Guest, Intro, Table } from "./types";
+
+// All names and companies are invented. Do not substitute real people.
+
+const g = (
+  id: string,
+  name: string,
+  role: Guest["role"],
+  company: string,
+  sector: string | null,
+  stage: string | null,
+  strength: number,
+  socialEnergy: Guest["socialEnergy"],
+  hosted: number,
+  lastSeen: string,
+  notes: string | null
+): Guest => ({
+  id,
+  name,
+  role,
+  company,
+  title: "",
+  email: "",
+  linkedinUrl: "",
+  sector,
+  stage,
+  strength,
+  socialEnergy,
+  hosted,
+  lastSeen,
+  notes,
+  createdAt: "2026-01-01T00:00:00.000Z",
+});
+
+export const DEMO_GUESTS: Guest[] = [
+  g("g1", "Priya Raghunathan", "founder", "Loomwork", "devtools", "seed", 5, "high", 4, "2026-07-11", "Vegetarian. Great connector: seat her near anyone shy."),
+  g("g2", "Marcus Oyelaran", "engineer", "Stripe", "fintech", null, 4, "medium", 3, "2026-07-11", "Always ~20 min late. Wants to found something in 2027."),
+  g("g3", "Dana Whitfield", "vc", "Kestrel Capital", "healthtech", "seed", 5, "high", 6, "2026-07-11", "No alcohol. Will co-host: has offered twice."),
+  g("g4", "Tomas Berglund", "founder", "Vantis Health", "healthtech", "seed", 3, "low", 1, "2026-05-02", "Quiet until asked a direct question. Then excellent."),
+  g("g5", "Aisha Nkemdirim", "operator", "Ramp", "fintech", null, 4, "high", 2, "2026-06-19", "Shellfish allergy: flag it with the venue every time."),
+  g("g6", "Wen Li Chao", "founder", "Ardent Labs", "devtools", "pre-seed", 2, "medium", 1, "2026-03-14", "Met at ODF28. Overdue."),
+  g("g7", "Jordan Beckett", "vc", "Fairmount", "devtools", "pre-seed", 3, "medium", 2, "2026-06-19", null),
+  g("g8", "Rosalie Duchamp", "engineer", "Anthropic", "ai", null, 3, "low", 1, "2026-06-19", "Gluten-free. Deep on evals."),
+  g("g9", "Samuel Achebe", "founder", "Northgate AI", "ai", "series-a", 4, "high", 3, "2026-07-11", "Hired someone from the March table."),
+  g("g10", "Beatrice Kaminski", "operator", "Figma", "design", null, 2, "medium", 1, "2026-01-23", "Long overdue: strongest dormant tie."),
+  g("g11", "Idris Farouk", "founder", "Cadence Bio", "healthtech", "pre-seed", 3, "low", 2, "2026-05-02", "Do not seat next to Tomas: direct competitors."),
+  g("g12", "Helena Vasquez", "vc", "Two Rivers", "ai", "seed", 4, "medium", 2, "2026-07-11", null),
+  g("g13", "Caleb Whitmore", "engineer", "Vercel", "devtools", null, 3, "high", 2, "2026-06-19", null),
+  g("g14", "Noor Hadid", "founder", "Skiff Logistics", "logistics", "seed", 2, "medium", 1, "2026-02-08", "Overdue. Raising in Q4."),
+  g("g15", "Theo Brandão", "operator", "Notion", "saas", null, 3, "low", 1, "2026-05-02", null),
+];
+
+export const DEMO_TABLES: Table[] = [
+  {
+    id: "t1",
+    name: "Healthtech, small room",
+    date: "2026-05-02",
+    venue: "Kokkari",
+    coHost: "Dana Whitfield",
+    seats: 8,
+    status: "past",
+    guestIds: ["g1", "g3", "g4", "g11", "g15", "g2", "g7", "g12"],
+    seating: ["g4", "g3", "g1", "g7", "g11", "g12", "g2", "g15"],
+    note: "Tomas and Idris seated at opposite ends: competitors. Worked.",
+  },
+  {
+    id: "t2",
+    name: "Devtools founders + the people who fund them",
+    date: "2026-06-19",
+    venue: "Charmaine's",
+    coHost: null,
+    seats: 7,
+    status: "past",
+    guestIds: ["g1", "g5", "g7", "g8", "g13", "g6", "g10"],
+    seating: ["g6", "g7", "g10", "g1", "g8", "g13", "g5"],
+    note: "Best table yet. Jordan and Wen Li talked for two hours.",
+  },
+  {
+    id: "t3",
+    name: "AI infra, off the record",
+    date: "2026-07-11",
+    venue: "The Battery",
+    coHost: "Samuel Achebe",
+    seats: 9,
+    status: "past",
+    guestIds: ["g1", "g2", "g3", "g9", "g12", "g8", "g13", "g5", "g14"],
+    seating: ["g8", "g9", "g14", "g12", "g2", "g1", "g3", "g13", "g5"],
+    note: null,
+  },
+  {
+    id: "t4",
+    name: "Second-time founders",
+    date: "2026-08-14",
+    venue: "TBD",
+    coHost: "Dana Whitfield",
+    seats: 8,
+    status: "upcoming",
+    guestIds: ["g1", "g4", "g9", "g14", "g6"],
+    seating: null,
+    note: "Three seats open. Seating not set.",
+  },
+];
+
+export const DEMO_INTROS: Intro[] = [
+  { id: "i1", tableId: "t1", a: "g4", b: "g3", outcome: "working together", detail: "Kestrel led Vantis seed, Aug 2026." },
+  { id: "i2", tableId: "t1", a: "g11", b: "g15", outcome: "stayed in touch", detail: null },
+  { id: "i3", tableId: "t2", a: "g6", b: "g7", outcome: "working together", detail: "Fairmount wrote first check into Ardent." },
+  { id: "i4", tableId: "t2", a: "g10", b: "g1", outcome: "stayed in touch", detail: "Monthly design reviews." },
+  { id: "i5", tableId: "t2", a: "g13", b: "g5", outcome: "no follow-through", detail: null },
+  { id: "i6", tableId: "t3", a: "g8", b: "g9", outcome: "hire", detail: "Rosalie referred Northgate its first eval engineer." },
+  { id: "i7", tableId: "t3", a: "g2", b: "g9", outcome: "stayed in touch", detail: "Marcus advising on payments." },
+  { id: "i8", tableId: "t3", a: "g12", b: "g14", outcome: "no follow-through", detail: null },
+];

@@ -1,36 +1,14 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Covers
 
-## Getting Started
+Be My Dinner Guest.
 
-First, run the development server:
+Covers remembers every table you've set: who sat where, who hit it off, which introductions turned into a hire or a check, and who you owe a follow-up.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Tables**: every dinner, past and upcoming, with seating and outcomes
+- **Guests**: the contact graph with hosted count, last seen, strength, table memory
+- **Intros**: the introduction ledger, filterable by outcome
+- **Overdue**: dormant ties sorted by strength, plus the co-host pipeline
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Runs entirely in the browser (localStorage). `npm run dev` to start. Demo data ships baked in; hit Reset demo to restore it.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Pairs with **thread**, which runs the night itself. Covers accumulates what the nights build.

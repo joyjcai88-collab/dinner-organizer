@@ -1,21 +1,20 @@
 import type { Metadata } from "next";
-import { DM_Serif_Display, Inter } from "next/font/google";
+import { IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
-const dmSerif = DM_Serif_Display({
-  variable: "--font-dm-serif",
+const ibmPlexMono = IBM_Plex_Mono({
+  variable: "--font-ibm-plex-mono",
   subsets: ["latin"],
-  weight: "400",
-});
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
+  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
-  title: "Dinner Organizer",
-  description: "Organize founder & engineer dinners for VC ecosystem events",
+  metadataBase: process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? new URL(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`)
+    : undefined,
+  title: "Covers · Be My Dinner Guest",
+  description:
+    "Covers remembers every table you've set: who sat where, who hit it off, and who you owe a follow-up.",
 };
 
 export default function RootLayout({
@@ -26,9 +25,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${dmSerif.variable} ${inter.variable} h-full antialiased`}
+      className={`${ibmPlexMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-[family-name:var(--font-inter)]">{children}</body>
+      <body className="min-h-full flex flex-col bg-paper text-text font-serif">
+        {children}
+      </body>
     </html>
   );
 }

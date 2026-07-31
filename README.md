@@ -1,8 +1,8 @@
-# Covers
+# Be My Guest
 
 Be My Dinner Guest.
 
-Covers remembers every table you've set: who sat where, who hit it off, which introductions turned into a hire or a check, and who you owe a follow-up.
+Be My Guest remembers every table you've set: who sat where, who hit it off, which introductions turned into a hire or a check, and who you owe a follow-up.
 
 - **Tables**: every dinner, past and upcoming, with seating and outcomes
 - **Guests**: the contact graph with hosted count, last seen, strength, table memory
@@ -11,4 +11,4 @@ Covers remembers every table you've set: who sat where, who hit it off, which in
 
 Runs entirely in the browser (localStorage). `npm run dev` to start. Demo data ships baked in; hit Reset demo to restore it.
 
-Pairs with **thread**, which runs the night itself. Covers accumulates what the nights build.
+Pairs with **thread**, which runs the night itself. Be My Guest accumulates what the nights build.

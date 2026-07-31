@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export const TOOL_NAME = "Covers";
+export const TOOL_NAME = "Be My Guest";
 
 /**
  * Breadcrumb wordmark: play-mark + "Joy Cai / <Tool Name>".

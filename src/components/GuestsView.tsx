@@ -6,6 +6,7 @@ import { upsertGuest, deleteGuest, saveGuests, getGuests } from "@/lib/store";
 import { exportGuestsCSV } from "@/lib/csv";
 import GuestModal from "./GuestModal";
 import ImportModal from "./ImportModal";
+import LinkedInConnect from "./LinkedInConnect";
 import {
   RoleBadge,
   StrengthBar,
@@ -48,7 +49,7 @@ export default function GuestsView({ guests, onRefresh }: Props) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "covers-guests.csv";
+    a.download = "be-my-guest-guests.csv";
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -77,8 +78,14 @@ export default function GuestsView({ guests, onRefresh }: Props) {
         </select>
         <div className="flex-1" />
         <GhostButton onClick={() => setAdding(true)}>+ Add guest</GhostButton>
+        <LinkedInConnect
+          onImport={(imported) => {
+            saveGuests([...getGuests(), ...imported]);
+            onRefresh();
+          }}
+        />
         <PrimaryButton onClick={() => setImportOpen(true)}>
-          Import LinkedIn CSV
+          Import CSV
         </PrimaryButton>
         {guests.length > 0 && <GhostButton onClick={handleExport}>Export</GhostButton>}
       </div>

@@ -189,7 +189,7 @@ export default function LumaImportModal({ guests, tables, onClose, onImported }:
             </div>
             <p className="text-[14.5px] leading-[1.55] text-secondary mt-3">
               Calendar Settings → Developer → API Keys (requires Luma Plus). The key
-              stays in your browser; Covers only relays the request and never stores it.
+              stays in your browser; Be My Guest only relays the request and never stores it.
             </p>
           </div>
           {apiEvents && apiEvents.length > 0 && (
@@ -289,7 +289,7 @@ export default function LumaImportModal({ guests, tables, onClose, onImported }:
               )}
               {duplicate && (
                 <p className="text-danger">
-                  A table with this name and date already exists — looks imported.
+                  A table with this name and date already exists. Looks imported.
                 </p>
               )}
             </div>

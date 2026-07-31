@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Covers · Be My Dinner Guest";
+export const alt = "Be My Guest";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -32,7 +32,7 @@ export default function OgImage() {
         </svg>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ fontSize: 110, lineHeight: 1, letterSpacing: "-0.025em" }}>
-            Covers
+            Be My Guest
           </div>
           <div style={{ fontSize: 40, marginTop: 28, color: "#757575" }}>
             Be My Dinner Guest.

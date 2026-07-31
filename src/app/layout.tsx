@@ -12,9 +12,9 @@ export const metadata: Metadata = {
   metadataBase: process.env.VERCEL_PROJECT_PRODUCTION_URL
     ? new URL(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`)
     : undefined,
-  title: "Covers · Be My Dinner Guest",
+  title: "Be My Guest",
   description:
-    "Covers remembers every table you've set: who sat where, who hit it off, and who you owe a follow-up.",
+    "Be My Guest remembers every table you've set: who sat where, who hit it off, and who you owe a follow-up.",
 };
 
 export default function RootLayout({

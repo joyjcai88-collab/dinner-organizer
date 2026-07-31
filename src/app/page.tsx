@@ -4,7 +4,7 @@ import Wordmark from "@/components/Wordmark";
 const FEATURES = [
   {
     title: "Set the table",
-    body: "Pull the guest list straight from your Luma event, or paste a CSV. Covers proposes a seating chart that pairs complementary roles, keeps competitors apart, and never re-seats the same two people twice.",
+    body: "Pull the guest list straight from your Luma event, or paste a CSV. Be My Guest proposes a seating chart that pairs complementary roles, keeps competitors apart, and never re-seats the same two people twice.",
   },
   {
     title: "Keep the thread",
@@ -16,7 +16,7 @@ const FEATURES = [
   },
   {
     title: "Remember the details",
-    body: "Priya's vegetarian. Marcus always arrives twenty minutes late. Covers remembers so you don't have to ask twice.",
+    body: "Priya's vegetarian. Marcus always arrives twenty minutes late. Be My Guest remembers so you don't have to ask twice.",
   },
 ];
 
@@ -33,7 +33,7 @@ export default function Landing() {
       <section className="border-b border-line">
         <div className="max-w-4xl mx-auto px-6 pt-16 pb-16 md:pt-24 md:pb-20">
           <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted mb-7">
-            Covers
+            Be My Guest
           </p>
           <h1 className="font-serif font-normal text-[32px] md:text-[44px] leading-[1.1] tracking-[-0.025em] text-text">
             Be My Dinner Guest.
@@ -43,7 +43,7 @@ export default function Landing() {
             clearly.
           </p>
           <p className="mt-4 text-[15px] leading-[1.55] text-secondary max-w-2xl">
-            Covers keeps the part that compounds: who sat where, who hit it
+            Be My Guest keeps the part that compounds: who sat where, who hit it
             off, which introductions turned into a hire or a check, and who you
             haven&apos;t seen since last spring. Import your contacts once.
             Every table after that makes the next one better.
@@ -81,7 +81,7 @@ export default function Landing() {
       <footer className="border-t border-line">
         <div className="max-w-4xl mx-auto px-6 py-8 flex items-center justify-between flex-wrap gap-3">
           <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted">
-            Covers accumulates the relationships. thread runs the night.
+            Be My Guest accumulates the relationships. thread runs the night.
           </p>
           <Link
             href="/app"

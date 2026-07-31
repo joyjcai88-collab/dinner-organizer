@@ -372,7 +372,7 @@ export default function TablesView({ guests, tables, intros, onRefresh }: Props)
           {table.status === "upcoming" && (
             <div className="mt-8 border-t border-line pt-6 flex items-center justify-between flex-wrap gap-3">
               <p className="text-[14.5px] leading-[1.55] text-secondary max-w-md">
-                Covers accumulates the relationships. thread runs the night.
+                Be My Guest accumulates the relationships. thread runs the night.
               </p>
               <GhostButton onClick={handleOpenInThread}>Open in thread →</GhostButton>
             </div>

@@ -5,6 +5,14 @@
 
 import { parseISO, format } from "date-fns";
 
+/** Deliberately permissive: this only catches obvious typos. Real delivery is
+ * the mail client's problem, and over-strict rules reject valid addresses. */
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/;
+
+export function isValidEmail(value: string): boolean {
+  return EMAIL_PATTERN.test(value.trim());
+}
+
 export interface DinnerDetails {
   name: string;
   date: string; // ISO date, e.g. "2026-08-15"

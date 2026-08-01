@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Guest, Role, ROLE_LABELS } from "@/lib/types";
 import { upsertGuest, deleteGuest, saveGuests, getGuests } from "@/lib/store";
 import { exportGuestsCSV } from "@/lib/csv";
+import { isValidEmail } from "@/lib/email";
 import GuestModal from "./GuestModal";
 import ImportModal from "./ImportModal";
 import LinkedInConnect from "./LinkedInConnect";
@@ -27,6 +28,41 @@ export default function GuestsView({ guests, onRefresh }: Props) {
   const [modalGuest, setModalGuest] = useState<Guest | null>(null);
   const [adding, setAdding] = useState(false);
   const [importOpen, setImportOpen] = useState(false);
+  // In-flight edits to the email column, keyed by guest id. Absent means the
+  // cell is showing the stored value.
+  const [emailDrafts, setEmailDrafts] = useState<Record<string, string>>({});
+  const [emailErrors, setEmailErrors] = useState<Record<string, string>>({});
+
+  const clearKey = (
+    setter: React.Dispatch<React.SetStateAction<Record<string, string>>>,
+    id: string
+  ) =>
+    setter((prev) => {
+      if (!(id in prev)) return prev;
+      const next = { ...prev };
+      delete next[id];
+      return next;
+    });
+
+  const commitEmail = (guest: Guest) => {
+    const draft = emailDrafts[guest.id];
+    if (draft === undefined) return;
+    const email = draft.trim();
+    if (email === guest.email) {
+      clearKey(setEmailDrafts, guest.id);
+      clearKey(setEmailErrors, guest.id);
+      return;
+    }
+    // Blank clears the address, which is a legitimate correction.
+    if (email !== "" && !isValidEmail(email)) {
+      setEmailErrors((prev) => ({ ...prev, [guest.id]: "Check this address" }));
+      return;
+    }
+    clearKey(setEmailDrafts, guest.id);
+    clearKey(setEmailErrors, guest.id);
+    upsertGuest({ ...guest, email });
+    onRefresh();
+  };
 
   const filtered = useMemo(() => {
     let result = [...guests].sort((a, b) => b.strength - a.strength);
@@ -94,7 +130,7 @@ export default function GuestsView({ guests, onRefresh }: Props) {
         <table className="w-full text-[14.5px]">
           <thead>
             <tr className="bg-tile border-b border-line text-left">
-              {["Guest", "Role", "Strength", "Dinners", "Last seen", "Table memory", ""].map(
+              {["Guest", "Email", "Role", "Strength", "Dinners", "Last seen", "Table memory", ""].map(
                 (h, i) => (
                   <th
                     key={i}
@@ -118,6 +154,38 @@ export default function GuestsView({ guests, onRefresh }: Props) {
                   <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted mt-1">
                     {g.company}
                   </p>
+                </td>
+                {/* Editable in place so a bulk import can be filled in from
+                    this one screen rather than opening each guest. Note the
+                    Remove button sits between rows in the tab order, so
+                    keyboard travel down the column is two presses per row. */}
+                <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
+                  <input
+                    type="email"
+                    value={emailDrafts[g.id] ?? g.email}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setEmailDrafts((prev) => ({ ...prev, [g.id]: value }));
+                    }}
+                    onBlur={() => commitEmail(g)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        e.currentTarget.blur();
+                      } else if (e.key === "Escape") {
+                        clearKey(setEmailDrafts, g.id);
+                        clearKey(setEmailErrors, g.id);
+                      }
+                    }}
+                    placeholder="Add an email"
+                    aria-label={`Email address for ${g.name}`}
+                    className="field w-[210px] font-mono text-[11px]"
+                  />
+                  {emailErrors[g.id] && (
+                    <p className="mt-1 font-mono text-[9.5px] uppercase tracking-[0.08em] text-danger">
+                      {emailErrors[g.id]}
+                    </p>
+                  )}
                 </td>
                 <td className="px-4 py-3">
                   <RoleBadge role={g.role} />
@@ -151,7 +219,7 @@ export default function GuestsView({ guests, onRefresh }: Props) {
             ))}
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={7} className="px-4 py-16 text-center">
+                <td colSpan={8} className="px-4 py-16 text-center">
                   <p className="font-serif text-[20px] text-text">
                     No guests match
                   </p>

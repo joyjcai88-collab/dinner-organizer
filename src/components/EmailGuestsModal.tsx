@@ -2,12 +2,8 @@
 
 import { useMemo, useState } from "react";
 import { Guest, Table } from "@/lib/types";
-import { renderInvite, OtherGuest, DinnerDetails } from "@/lib/email";
+import { renderInvite, isValidEmail, OtherGuest, DinnerDetails } from "@/lib/email";
 import { Modal, PrimaryButton, GhostButton, labelCls } from "./ui";
-
-/** Deliberately permissive: this only catches obvious typos. Real delivery
- * is the mail client's problem, and over-strict rules reject valid addresses. */
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/;
 
 interface Props {
   table: Table;
@@ -64,7 +60,7 @@ export default function EmailGuestsModal({
   const saveDraft = (guest: Guest) => {
     const email = (drafts[guest.id] ?? "").trim();
     if (email === "") return;
-    if (!EMAIL_PATTERN.test(email)) {
+    if (!isValidEmail(email)) {
       setDraftErrors((prev) => ({ ...prev, [guest.id]: "That address doesn't look right" }));
       return;
     }

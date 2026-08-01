@@ -143,19 +143,50 @@ function parseLinkedInDescription(desc: string): Record<string, string | number>
   return result;
 }
 
+const NAMED_ENTITIES: Record<string, string> = {
+  amp: "&",
+  lt: "<",
+  gt: ">",
+  quot: '"',
+  apos: "'",
+  nbsp: " ",
+};
+
+/**
+ * Meta tag content arrives HTML-escaped, so an unescaped "&" reaches us as
+ * "&amp;" and lands in the guest record verbatim. Decode named and numeric
+ * references, repeating so double-escaped source ("&amp;amp;") resolves too.
+ */
+function decodeEntities(text: string): string {
+  let out = text;
+  for (let pass = 0; pass < 3 && /&(#\d+|#x[0-9a-f]+|[a-z]+);/i.test(out); pass++) {
+    out = out.replace(/&(#\d+|#x[0-9a-f]+|[a-z]+);/gi, (whole, ref: string) => {
+      if (ref[0] === "#") {
+        const code =
+          ref[1] === "x" || ref[1] === "X"
+            ? parseInt(ref.slice(2), 16)
+            : parseInt(ref.slice(1), 10);
+        return Number.isFinite(code) && code > 0 ? String.fromCodePoint(code) : whole;
+      }
+      return NAMED_ENTITIES[ref.toLowerCase()] ?? whole;
+    });
+  }
+  return out;
+}
+
 function extractMetaContent(html: string, property: string): string {
   const pattern = new RegExp(
     `<meta[^>]+(?:property|name)=["']${property}["'][^>]+content=["']([^"']*)["']`,
     "i"
   );
   const match = html.match(pattern);
-  if (match) return match[1];
+  if (match) return decodeEntities(match[1]);
   const pattern2 = new RegExp(
     `<meta[^>]+content=["']([^"']*)["'][^>]+(?:property|name)=["']${property}["']`,
     "i"
   );
   const match2 = html.match(pattern2);
-  return match2 ? match2[1] : "";
+  return match2 ? decodeEntities(match2[1]) : "";
 }
 
 function extractJsonLd(html: string): Record<string, unknown> | null {

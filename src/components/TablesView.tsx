@@ -153,7 +153,7 @@ export default function TablesView({ guests, tables, intros, onRefresh }: Props)
       <div>
         <div className="flex items-center justify-between mb-4 gap-3 flex-wrap">
           <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted">
-            {tables.length} tables
+            {tables.length} {tables.length === 1 ? "table" : "tables"}
           </p>
           <div className="flex gap-5">
             <LinkButton onClick={() => setLumaOpen(true)}>↓ Luma</LinkButton>

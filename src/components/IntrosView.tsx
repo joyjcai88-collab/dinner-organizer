@@ -37,8 +37,10 @@ export default function IntrosView({ guests, tables, intros, onRefresh }: Props)
       {/* The slide */}
       <div className="border border-line rounded-none p-6 md:p-8 mb-8">
         <p className="font-serif font-normal text-[26px] md:text-[32px] leading-[1.2] tracking-[-0.025em] text-text">
-          {tables.length} dinners · {guests.length} guests · {intros.length} intros
-          logged · {wentSomewhere} that went somewhere
+          {tables.length} {tables.length === 1 ? "dinner" : "dinners"} ·{" "}
+          {guests.length} {guests.length === 1 ? "guest" : "guests"} ·{" "}
+          {intros.length} {intros.length === 1 ? "intro" : "intros"} logged ·{" "}
+          {wentSomewhere} that went somewhere
         </p>
         <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted mt-4">
           The number that justifies the dinner budget

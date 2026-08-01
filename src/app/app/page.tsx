@@ -134,7 +134,14 @@ export default function App() {
     const wentSomewhere = intros.filter(
       (i) => i.outcome !== "no follow-through"
     ).length;
-    return `${tables.length} tables · ${guests.length} guests · ${intros.length} intros logged · ${wentSomewhere} went somewhere`;
+    const n = (count: number, one: string, many: string) =>
+      `${count} ${count === 1 ? one : many}`;
+    return [
+      n(tables.length, "table", "tables"),
+      n(guests.length, "guest", "guests"),
+      `${n(intros.length, "intro", "intros")} logged`,
+      `${wentSomewhere} went somewhere`,
+    ].join(" · ");
   }, [tables, guests, intros]);
 
   if (!ready) return <div className="min-h-screen bg-paper" />;

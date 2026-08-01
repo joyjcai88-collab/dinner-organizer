@@ -373,7 +373,9 @@ export default function TablesView({ guests, tables, intros, onRefresh }: Props)
             )}
           </div>
 
-          {table.status === "upcoming" && (
+          {/* Past tables are worth copying too. The only thing that makes the
+              button pointless is having nobody to copy. */}
+          {tableGuests.length > 0 && (
             <div className="mt-8 border-t border-line pt-6">
               <GhostButton onClick={handleCopyGuestList}>Copy guest list</GhostButton>
             </div>

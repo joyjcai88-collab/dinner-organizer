@@ -83,12 +83,20 @@ export default function Landing() {
           <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted">
             Be My Guest accumulates the relationships. thread runs the night.
           </p>
-          <Link
-            href="/app"
-            className="font-mono text-[10px] uppercase tracking-[0.08em] text-secondary hover:text-accent transition-colors"
-          >
-            Open the app →
-          </Link>
+          <div className="flex items-center gap-6">
+            <Link
+              href="/privacy"
+              className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-text transition-colors"
+            >
+              Privacy
+            </Link>
+            <Link
+              href="/app"
+              className="font-mono text-[10px] uppercase tracking-[0.08em] text-secondary hover:text-accent transition-colors"
+            >
+              Open the app →
+            </Link>
+          </div>
         </div>
       </footer>
     </div>

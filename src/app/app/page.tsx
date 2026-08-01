@@ -11,7 +11,11 @@ import {
   getGuests,
   getTables,
   getIntros,
+  saveGuests,
+  saveTables,
+  saveIntros,
 } from "@/lib/store";
+import { buildBackup, parseBackup, BackupError } from "@/lib/backup";
 import TablesView from "@/components/TablesView";
 import GuestsView from "@/components/GuestsView";
 import IntrosView from "@/components/IntrosView";
@@ -65,6 +69,39 @@ export default function App() {
     refresh();
   };
 
+  const handleBackup = () => {
+    const backup = buildBackup(guests, tables, intros, new Date().toISOString());
+    const blob = new Blob([JSON.stringify(backup, null, 2)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `be-my-guest-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleRestoreFile = async (file: File) => {
+    let backup;
+    try {
+      backup = parseBackup(await file.text());
+    } catch (e) {
+      alert(e instanceof BackupError ? e.message : "Couldn't read that file.");
+      return;
+    }
+    if (
+      !confirm(
+        `Restore ${backup.guests.length} guests, ${backup.tables.length} tables and ${backup.intros.length} intros? This replaces everything currently in this browser.`
+      )
+    )
+      return;
+    saveGuests(backup.guests);
+    saveTables(backup.tables);
+    saveIntros(backup.intros);
+    refresh();
+  };
+
   /** seedDemo overwrites all three stores, so warn anyone who has since put
    *  real people in. */
   const handleLoadDemo = () => {
@@ -108,7 +145,27 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-6 py-7">
           <div className="flex items-center justify-between gap-4 flex-wrap">
             <Wordmark href="/" />
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-wrap">
+              <button
+                onClick={handleBackup}
+                className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-text transition-colors"
+              >
+                Back up
+              </button>
+              <label className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-text transition-colors cursor-pointer">
+                Restore
+                <input
+                  type="file"
+                  accept="application/json,.json"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    // Reset first so picking the same file twice still fires.
+                    e.target.value = "";
+                    if (file) handleRestoreFile(file);
+                  }}
+                />
+              </label>
               {demo ? (
                 <>
                   <span className="rounded-full bg-tile px-2.5 py-0.5 font-mono text-[9.5px] uppercase tracking-[0.08em] text-secondary">
@@ -139,6 +196,9 @@ export default function App() {
           </div>
           <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted mt-4">
             {rollup}
+          </p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted mt-1.5">
+            Saved in this browser only · <a href="/privacy" className="underline hover:text-text transition-colors">Privacy</a>
           </p>
         </div>
         <nav className="border-t border-line">

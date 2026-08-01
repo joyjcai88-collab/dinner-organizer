@@ -5,6 +5,7 @@ import { Guest, Role, ROLE_LABELS } from "@/lib/types";
 import { upsertGuest, deleteGuest, saveGuests, getGuests } from "@/lib/store";
 import { exportGuestsCSV } from "@/lib/csv";
 import { isValidEmail } from "@/lib/email";
+import { LOOKUP_ENABLED } from "@/lib/lookup-flag";
 import GuestModal from "./GuestModal";
 import ImportModal from "./ImportModal";
 import LinkedInConnect from "./LinkedInConnect";
@@ -114,12 +115,14 @@ export default function GuestsView({ guests, onRefresh }: Props) {
         </select>
         <div className="flex-1" />
         <GhostButton onClick={() => setAdding(true)}>+ Add guest</GhostButton>
-        <LinkedInConnect
-          onImport={(imported) => {
-            saveGuests([...getGuests(), ...imported]);
-            onRefresh();
-          }}
-        />
+        {LOOKUP_ENABLED && (
+          <LinkedInConnect
+            onImport={(imported) => {
+              saveGuests([...getGuests(), ...imported]);
+              onRefresh();
+            }}
+          />
+        )}
         <PrimaryButton onClick={() => setImportOpen(true)}>
           Import CSV
         </PrimaryButton>

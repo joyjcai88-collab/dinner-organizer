@@ -3,8 +3,12 @@ import {
   scrapeLinkedInProfile,
   scrapeLinkedInByName,
 } from "@/lib/linkedin";
+import { LOOKUP_ENABLED, LOOKUP_DISABLED_MESSAGE } from "@/lib/lookup-flag";
 
 export async function POST(request: NextRequest) {
+  if (!LOOKUP_ENABLED) {
+    return Response.json({ error: LOOKUP_DISABLED_MESSAGE }, { status: 404 });
+  }
   const body = await request.json();
 
   if (body.url) {

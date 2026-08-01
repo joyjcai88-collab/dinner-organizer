@@ -5,10 +5,17 @@ import { Guest, Table } from "@/lib/types";
 import { renderInvite, OtherGuest, DinnerDetails } from "@/lib/email";
 import { Modal, PrimaryButton, GhostButton, labelCls } from "./ui";
 
+/** Deliberately permissive: this only catches obvious typos. Real delivery
+ * is the mail client's problem, and over-strict rules reject valid addresses. */
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/;
+
 interface Props {
   table: Table;
   guests: Guest[]; // this table's guests, resolved from guestIds
   onClose: () => void;
+  /** Persist an email filled in here. The parent owns the write, matching
+   * how the other modals in this view save. */
+  onSaveEmail: (guest: Guest) => void;
 }
 
 // Several mail clients (Outlook in particular) start truncating or
@@ -34,7 +41,12 @@ function buildMailto(bccEmails: string[], subject: string, body: string): string
   return `mailto:?bcc=${bcc}&subject=${encodeMailtoComponent(subject)}&body=${encodeMailtoComponent(body)}`;
 }
 
-export default function EmailGuestsModal({ table, guests, onClose }: Props) {
+export default function EmailGuestsModal({
+  table,
+  guests,
+  onClose,
+  onSaveEmail,
+}: Props) {
   const withEmail = useMemo(() => guests.filter((g) => g.email.trim() !== ""), [guests]);
   const withoutEmail = useMemo(() => guests.filter((g) => g.email.trim() === ""), [guests]);
 
@@ -45,6 +57,32 @@ export default function EmailGuestsModal({ table, guests, onClose }: Props) {
   const [copiedAddresses, setCopiedAddresses] = useState(false);
   const [copiedMessage, setCopiedMessage] = useState(false);
   const [copyError, setCopyError] = useState("");
+  // Emails typed in for guests who have none, keyed by guest id.
+  const [drafts, setDrafts] = useState<Record<string, string>>({});
+  const [draftErrors, setDraftErrors] = useState<Record<string, string>>({});
+
+  const saveDraft = (guest: Guest) => {
+    const email = (drafts[guest.id] ?? "").trim();
+    if (email === "") return;
+    if (!EMAIL_PATTERN.test(email)) {
+      setDraftErrors((prev) => ({ ...prev, [guest.id]: "That address doesn't look right" }));
+      return;
+    }
+    setDraftErrors((prev) => {
+      const next = { ...prev };
+      delete next[guest.id];
+      return next;
+    });
+    setDrafts((prev) => {
+      const next = { ...prev };
+      delete next[guest.id];
+      return next;
+    });
+    // Select them straight away: filling the address in here means you
+    // intend to write to them.
+    setSelected((prev) => new Set(prev).add(guest.id));
+    onSaveEmail({ ...guest, email });
+  };
 
   const toggle = (id: string) => {
     setSelected((prev) => {
@@ -154,15 +192,34 @@ export default function EmailGuestsModal({ table, guests, onClose }: Props) {
               </label>
             ))}
             {withoutEmail.map((g) => (
-              <div
-                key={g.id}
-                className="flex items-center gap-3 px-4 py-3 opacity-50 cursor-not-allowed"
-              >
-                <input type="checkbox" checked={false} disabled />
-                <span className="font-serif text-[15px] text-text">{g.name}</span>
-                <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted ml-auto">
-                  No email on file
-                </span>
+              <div key={g.id} className="px-4 py-3">
+                <div className="flex items-center gap-3">
+                  <input type="checkbox" checked={false} disabled />
+                  <span className="font-serif text-[15px] text-text shrink-0">{g.name}</span>
+                  <input
+                    type="email"
+                    value={drafts[g.id] ?? ""}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setDrafts((prev) => ({ ...prev, [g.id]: value }));
+                    }}
+                    onBlur={() => saveDraft(g)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        saveDraft(g);
+                      }
+                    }}
+                    placeholder="Add an email"
+                    aria-label={`Email address for ${g.name}`}
+                    className="field ml-auto max-w-[260px] text-right font-mono text-[11px]"
+                  />
+                </div>
+                {draftErrors[g.id] && (
+                  <p className="mt-1.5 text-right font-mono text-[10px] uppercase tracking-[0.08em] text-danger">
+                    {draftErrors[g.id]}
+                  </p>
+                )}
               </div>
             ))}
             {guests.length === 0 && (

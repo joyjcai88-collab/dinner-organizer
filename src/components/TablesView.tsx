@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { Guest, Intro, Table } from "@/lib/types";
-import { upsertTable, deleteTable, upsertIntro } from "@/lib/store";
+import { upsertTable, deleteTable, upsertIntro, upsertGuest } from "@/lib/store";
 import {
   proposeSeating,
   annotate,
@@ -431,6 +431,10 @@ export default function TablesView({ guests, tables, intros, onRefresh }: Props)
           table={table}
           guests={tableGuests}
           onClose={() => setEmailOpen(false)}
+          onSaveEmail={(g) => {
+            upsertGuest(g);
+            onRefresh();
+          }}
         />
       )}
       {introOpen && table && (

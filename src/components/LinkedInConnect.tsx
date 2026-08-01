@@ -28,6 +28,12 @@ export default function LinkedInConnect({ onImport }: Props) {
   );
 
   useEffect(() => {
+    // The cookie only exists in the browser, so this cannot be a lazy initial
+    // value without desyncing from the server render. One extra render on
+    // mount is the accepted cost. The rule's preferred fix is
+    // useSyncExternalStore, which needs a cached snapshot to avoid a render
+    // loop; not worth it for a single read.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setProfile(readProfileCookie());
   }, []);
 

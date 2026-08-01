@@ -4,7 +4,7 @@ import Wordmark from "@/components/Wordmark";
 const FEATURES = [
   {
     title: "Set the table",
-    body: "Pull the guest list straight from your Luma event, or paste a CSV. Be My Guest proposes a seating chart that pairs complementary roles, keeps competitors apart, and never re-seats the same two people twice.",
+    body: "Pull the guest list straight from your Luma event, or paste a CSV. Be My Guest proposes a seating chart that pairs complementary roles, keeps competitors apart, and steers away from pairs who have already shared a table.",
   },
   {
     title: "Keep the thread",

@@ -6,6 +6,7 @@ import { Guest, Table, Intro } from "@/lib/types";
 import {
   ensureSeeded,
   seedDemo,
+  clearAll,
   isDemoMode,
   getGuests,
   getTables,
@@ -48,12 +49,47 @@ export default function App() {
     } else {
       ensureSeeded();
     }
+    // Everything above touches localStorage, which does not exist during the
+    // server render, so the first paint has to be followed by a state sync.
+    // Removing this render properly means turning lib/store into a real
+    // external store with subscribe/notify and reading it through
+    // useSyncExternalStore, which would also retire the onRefresh plumbing
+    // threaded through every view. Deliberately out of scope here.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     refresh();
     setReady(true);
   }, []);
 
   const handleReset = () => {
     seedDemo();
+    refresh();
+  };
+
+  /** seedDemo overwrites all three stores, so warn anyone who has since put
+   *  real people in. */
+  const handleLoadDemo = () => {
+    const hasData = guests.length > 0 || tables.length > 0 || intros.length > 0;
+    if (
+      hasData &&
+      !confirm(
+        "Load the demo? This replaces every guest, table and intro in this browser."
+      )
+    )
+      return;
+    seedDemo();
+    refresh();
+  };
+
+  /** First visit seeds the demo, so this is the only way out of it and into
+   *  a list of your own people. */
+  const handleStartFresh = () => {
+    if (
+      !confirm(
+        "Clear the demo and start with an empty list? This removes every guest, table and intro in this browser."
+      )
+    )
+      return;
+    clearAll();
     refresh();
   };
 
@@ -72,19 +108,34 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-6 py-7">
           <div className="flex items-center justify-between gap-4 flex-wrap">
             <Wordmark href="/" />
-            {demo && (
-              <div className="flex items-center gap-3">
-                <span className="rounded-full bg-tile px-2.5 py-0.5 font-mono text-[9.5px] uppercase tracking-[0.08em] text-secondary">
-                  Demo data
-                </span>
+            <div className="flex items-center gap-3">
+              {demo ? (
+                <>
+                  <span className="rounded-full bg-tile px-2.5 py-0.5 font-mono text-[9.5px] uppercase tracking-[0.08em] text-secondary">
+                    Demo data
+                  </span>
+                  <button
+                    onClick={handleReset}
+                    className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-text transition-colors"
+                  >
+                    Reset demo
+                  </button>
+                  <button
+                    onClick={handleStartFresh}
+                    className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-text transition-colors"
+                  >
+                    Start fresh
+                  </button>
+                </>
+              ) : (
                 <button
-                  onClick={handleReset}
+                  onClick={handleLoadDemo}
                   className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-text transition-colors"
                 >
-                  Reset demo
+                  Load demo
                 </button>
-              </div>
-            )}
+              )}
+            </div>
           </div>
           <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted mt-4">
             {rollup}

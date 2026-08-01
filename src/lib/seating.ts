@@ -144,6 +144,7 @@ export function suggestInvites(table: Table, guests: Guest[], allTables: Table[]
   const tableGuests = guests.filter((g) => atTable.has(g.id));
   const roleCount = (role: Guest["role"]) => tableGuests.filter((g) => g.role === role).length;
   const now = Date.now();
+  const sat = pastPairs(allTables);
 
   return guests
     .filter((g) => !atTable.has(g.id))
@@ -160,6 +161,9 @@ export function suggestInvites(table: Table, guests: Guest[], allTables: Table[]
       if (g.role === "engineer" && roleCount("engineer") === 0) score += 1;
       // don't invite a competitor of someone already seated
       if (tableGuests.some((t) => areCompetitors(g, t))) score -= 100;
+      // prefer someone this table hasn't already met, matching how
+      // proposeSeating treats repeat pairs
+      score -= tableGuests.filter((t) => sat.has(pairKey(g.id, t.id))).length;
       return { g, score };
     })
     .filter((x) => x.score > 0)

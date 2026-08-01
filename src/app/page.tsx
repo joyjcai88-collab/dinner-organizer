@@ -81,7 +81,7 @@ export default function Landing() {
       <footer className="border-t border-line">
         <div className="max-w-4xl mx-auto px-6 py-8 flex items-center justify-between flex-wrap gap-3">
           <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted">
-            Be My Guest accumulates the relationships. thread runs the night.
+            Who sat where, who hit it off, and who you owe a follow-up.
           </p>
           <div className="flex items-center gap-6">
             <Link

@@ -10,5 +10,3 @@ Be My Guest remembers every table you've set: who sat where, who hit it off, whi
 - **Overdue**: dormant ties sorted by strength, plus the co-host pipeline
 
 Runs entirely in the browser (localStorage). `npm run dev` to start. Demo data ships baked in; hit Reset demo to restore it.
-
-Pairs with **thread**, which runs the night itself. Be My Guest accumulates what the nights build.

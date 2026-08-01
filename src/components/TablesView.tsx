@@ -126,7 +126,7 @@ export default function TablesView({ guests, tables, intros, onRefresh }: Props)
     onRefresh();
   };
 
-  const handleOpenInThread = async () => {
+  const handleCopyGuestList = async () => {
     if (!table) return;
     const lines = [
       `${table.name} · ${table.date} · ${table.venue}`,
@@ -134,7 +134,7 @@ export default function TablesView({ guests, tables, intros, onRefresh }: Props)
     ];
     try {
       await navigator.clipboard.writeText(lines.join("\n"));
-      showToast("Guest list copied. Paste it into thread to plan the night.");
+      showToast("Guest list copied.");
     } catch {
       showToast("Couldn't reach the clipboard.");
     }
@@ -373,13 +373,9 @@ export default function TablesView({ guests, tables, intros, onRefresh }: Props)
             )}
           </div>
 
-          {/* thread handoff */}
           {table.status === "upcoming" && (
-            <div className="mt-8 border-t border-line pt-6 flex items-center justify-between flex-wrap gap-3">
-              <p className="text-[14.5px] leading-[1.55] text-secondary max-w-md">
-                Be My Guest accumulates the relationships. thread runs the night.
-              </p>
-              <GhostButton onClick={handleOpenInThread}>Open in thread →</GhostButton>
+            <div className="mt-8 border-t border-line pt-6">
+              <GhostButton onClick={handleCopyGuestList}>Copy guest list</GhostButton>
             </div>
           )}
         </div>

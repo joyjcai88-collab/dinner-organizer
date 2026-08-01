@@ -18,12 +18,13 @@ export async function GET(request: NextRequest) {
     scope: "openid profile email",
   });
 
-  const response = Response.redirect(
-    `https://www.linkedin.com/oauth/v2/authorization?${params}`
-  );
-  response.headers.set(
-    "Set-Cookie",
-    `linkedin_oauth_state=${state}; Path=/; HttpOnly; SameSite=Lax; Max-Age=600`
-  );
-  return response;
+  // Build the 302 by hand: Response.redirect() returns immutable headers, so
+  // setting the state cookie on it throws TypeError: immutable.
+  return new Response(null, {
+    status: 302,
+    headers: {
+      Location: `https://www.linkedin.com/oauth/v2/authorization?${params}`,
+      "Set-Cookie": `linkedin_oauth_state=${state}; Path=/; HttpOnly; SameSite=Lax; Max-Age=600`,
+    },
+  });
 }

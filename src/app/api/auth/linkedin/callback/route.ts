@@ -1,18 +1,31 @@
 import { NextRequest } from "next/server";
 
+/**
+ * Redirect back into the app. Built by hand rather than with
+ * Response.redirect(), whose headers are immutable and would throw when the
+ * session cookies are attached.
+ */
+function backToApp(request: NextRequest, query: string, cookies: string[] = []) {
+  const headers = new Headers({
+    Location: new URL(`/app?${query}`, request.nextUrl.origin).toString(),
+  });
+  for (const cookie of cookies) headers.append("Set-Cookie", cookie);
+  return new Response(null, { status: 302, headers });
+}
+
 export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get("code");
   const state = request.nextUrl.searchParams.get("state");
   const savedState = request.cookies.get("linkedin_oauth_state")?.value;
 
   if (!code || !state || state !== savedState) {
-    return Response.redirect(new URL("/?linkedin_error=invalid_state", request.nextUrl.origin));
+    return backToApp(request, "linkedin_error=invalid_state");
   }
 
   const clientId = process.env.LINKEDIN_CLIENT_ID;
   const clientSecret = process.env.LINKEDIN_CLIENT_SECRET;
   if (!clientId || !clientSecret) {
-    return Response.redirect(new URL("/?linkedin_error=not_configured", request.nextUrl.origin));
+    return backToApp(request, "linkedin_error=not_configured");
   }
 
   const origin = request.nextUrl.origin;
@@ -31,7 +44,7 @@ export async function GET(request: NextRequest) {
   });
 
   if (!tokenResp.ok) {
-    return Response.redirect(new URL("/?linkedin_error=token_failed", request.nextUrl.origin));
+    return backToApp(request, "linkedin_error=token_failed");
   }
 
   const tokenData = await tokenResp.json();
@@ -42,7 +55,7 @@ export async function GET(request: NextRequest) {
   });
 
   if (!profileResp.ok) {
-    return Response.redirect(new URL("/?linkedin_error=profile_failed", request.nextUrl.origin));
+    return backToApp(request, "linkedin_error=profile_failed");
   }
 
   const profile = await profileResp.json();
@@ -58,18 +71,8 @@ export async function GET(request: NextRequest) {
     })
   );
 
-  const response = Response.redirect(
-    new URL(`/?linkedin_connected=true`, request.nextUrl.origin)
-  );
-
-  response.headers.append(
-    "Set-Cookie",
-    `linkedin_profile=${linkedinData}; Path=/; SameSite=Lax; Max-Age=86400`
-  );
-  response.headers.append(
-    "Set-Cookie",
-    `linkedin_oauth_state=; Path=/; HttpOnly; Max-Age=0`
-  );
-
-  return response;
+  return backToApp(request, "linkedin_connected=true", [
+    `linkedin_profile=${linkedinData}; Path=/; SameSite=Lax; Max-Age=86400`,
+    `linkedin_oauth_state=; Path=/; HttpOnly; Max-Age=0`,
+  ]);
 }

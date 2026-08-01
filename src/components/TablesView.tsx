@@ -14,6 +14,7 @@ import SeatingChart from "./SeatingChart";
 import TableModal from "./TableModal";
 import IntroModal from "./IntroModal";
 import LumaImportModal from "./LumaImportModal";
+import EmailGuestsModal from "./EmailGuestsModal";
 import {
   RoleBadge,
   OutcomeBadge,
@@ -58,6 +59,7 @@ export default function TablesView({ guests, tables, intros, onRefresh }: Props)
   const [editing, setEditing] = useState<Table | null>(null);
   const [introOpen, setIntroOpen] = useState(false);
   const [lumaOpen, setLumaOpen] = useState(false);
+  const [emailOpen, setEmailOpen] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
 
   const table = sorted.find((t) => t.id === (selectedId ?? defaultId)) ?? null;
@@ -216,6 +218,9 @@ export default function TablesView({ guests, tables, intros, onRefresh }: Props)
               )}
             </div>
             <div className="flex items-center gap-3">
+              <GhostButton onClick={() => setEmailOpen(true)}>
+                Email guests
+              </GhostButton>
               <GhostButton
                 onClick={() => {
                   setEditing(table);
@@ -419,6 +424,13 @@ export default function TablesView({ guests, tables, intros, onRefresh }: Props)
             onRefresh();
             showToast("Luma event imported.");
           }}
+        />
+      )}
+      {emailOpen && table && (
+        <EmailGuestsModal
+          table={table}
+          guests={tableGuests}
+          onClose={() => setEmailOpen(false)}
         />
       )}
       {introOpen && table && (

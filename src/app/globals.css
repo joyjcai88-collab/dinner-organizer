@@ -125,3 +125,25 @@
     color: var(--color-muted);
   }
 }
+
+/* Guests table on smaller screens. Laptops drop the long "Table memory" column (it's in each
+   guest's details); phones and portrait tablets get one stacked row per guest instead of a
+   table you'd have to scroll sideways. */
+@media (max-width: 1180px) {
+  .guests-table th:nth-child(7), .guests-table td:nth-child(7) { display: none; }
+}
+@media (max-width: 860px) {
+  .guests-table, .guests-table tbody { display: block; }
+  .guests-table thead { display: none; }
+  .guests-table tbody tr { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; padding: 14px 16px; }
+  .guests-table td { padding: 0; }
+  .guests-table td:nth-child(1) { flex: 1 1 calc(100% - 90px); order: 1; }
+  .guests-table td:nth-child(8) { flex: none; order: 2; margin-left: auto; }
+  .guests-table td:nth-child(2) { flex: 1 1 100%; order: 3; }
+  .guests-table td:nth-child(2) input { width: 100%; }
+  .guests-table td:nth-child(3), .guests-table td:nth-child(4), .guests-table td:nth-child(5), .guests-table td:nth-child(6) { order: 4; display: inline-flex; align-items: center; gap: 6px; }
+  .guests-table td:nth-child(4)::before, .guests-table td:nth-child(5)::before { font-family: var(--font-ibm-plex-mono), monospace; font-size: 9.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #a3a3a3; }
+  .guests-table td:nth-child(4)::before { content: "Strength"; }
+  .guests-table td:nth-child(5)::before { content: "Dinners"; }
+  .guests-table td[colspan] { flex: 1 1 100%; padding: 48px 0; }
+}

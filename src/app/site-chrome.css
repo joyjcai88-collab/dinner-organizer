@@ -15,6 +15,8 @@
   --sc-mono: var(--font-ibm-plex-mono, "IBM Plex Mono"), "SF Mono", SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
+body { overflow-wrap: break-word; } /* long links and words wrap instead of widening the page */
+
 /* Header: monogram left, centered wordmark, Menu [M] right, no rule */
 .sc-header { position: relative; display: flex; align-items: flex-start; min-height: 64px; padding: 20px 24px 18px; background: var(--sc-paper); }
 .sc-mark { display: block; width: 26px; height: 26px; color: var(--sc-ink); }

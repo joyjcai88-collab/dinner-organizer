@@ -131,7 +131,7 @@ export default function GuestsView({ guests, onRefresh }: Props) {
       </div>
 
       <div className="bg-card border border-line rounded-none overflow-x-auto">
-        <table className="w-full text-[14.5px]">
+        <table className="guests-table w-full text-[14.5px]">
           <thead>
             <tr className="bg-tile border-b border-line text-left">
               {["Guest", "Email", "Role", "Strength", "Dinners", "Last seen", "Table memory", ""].map(

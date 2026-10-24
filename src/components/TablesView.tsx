@@ -217,7 +217,7 @@ export default function TablesView({ guests, tables, intros, onRefresh }: Props)
                 </p>
               )}
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
               <GhostButton onClick={() => setEmailOpen(true)}>
                 Email guests
               </GhostButton>

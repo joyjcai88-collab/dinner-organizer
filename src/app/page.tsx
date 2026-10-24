@@ -24,21 +24,21 @@ export default function Landing() {
   return (
     <div className="min-h-screen bg-paper flex flex-col">
       <header className="border-b border-line">
-        <div className="max-w-4xl mx-auto px-6 py-7">
+        <div className="max-w-4xl mx-auto px-6 py-5 md:py-7">
           <Wordmark />
         </div>
       </header>
 
       {/* Hero */}
       <section className="border-b border-line">
-        <div className="max-w-4xl mx-auto px-6 pt-16 pb-16 md:pt-24 md:pb-20">
-          <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted mb-7">
+        <div className="max-w-4xl mx-auto px-6 pt-8 pb-10 md:pt-24 md:pb-20">
+          <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted mb-4 md:mb-7">
             Be My Guest
           </p>
           <h1 className="font-serif font-normal text-[32px] md:text-[44px] leading-[1.1] tracking-[-0.025em] text-text">
             Be My Dinner Guest.
           </h1>
-          <p className="mt-7 text-[15px] leading-[1.55] text-secondary max-w-2xl">
+          <p className="mt-4 md:mt-7 text-[15px] leading-[1.55] text-secondary max-w-2xl">
             You&apos;ve thrown thirty dinners. You remember maybe four of them
             clearly.
           </p>
@@ -48,7 +48,7 @@ export default function Landing() {
             haven&apos;t seen since last spring. Import your contacts once.
             Every table after that makes the next one better.
           </p>
-          <div className="mt-10 flex items-center gap-5 flex-wrap">
+          <div className="mt-6 md:mt-10 flex items-center gap-5 flex-wrap">
             <Link
               href="/app?demo=1"
               className="rounded-full px-6 py-[11px] bg-ink text-paper font-mono text-[10.5px] uppercase tracking-[0.08em] hover:opacity-[0.82] transition-opacity"
@@ -64,7 +64,7 @@ export default function Landing() {
 
       {/* Features */}
       <main className="flex-1">
-        <div className="max-w-4xl mx-auto px-6 py-16 md:py-20 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
+        <div className="max-w-4xl mx-auto px-6 py-10 md:py-20 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 md:gap-y-12">
           {FEATURES.map((f) => (
             <div key={f.title}>
               <h2 className="font-serif font-normal text-[22px] tracking-[-0.02em] text-text">
@@ -79,7 +79,7 @@ export default function Landing() {
       </main>
 
       <footer className="border-t border-line">
-        <div className="max-w-4xl mx-auto px-6 py-8 flex items-center justify-between flex-wrap gap-3">
+        <div className="max-w-4xl mx-auto px-6 py-6 md:py-8 flex items-center justify-between flex-wrap gap-3">
           <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted">
             Who sat where, who hit it off, and who you owe a follow-up.
           </p>

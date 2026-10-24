@@ -149,7 +149,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-paper">
       <header className="border-b border-line">
-        <div className="max-w-7xl mx-auto px-6 py-7">
+        <div className="max-w-7xl mx-auto px-6 py-5 md:py-7">
           <div className="flex items-center justify-between gap-4 flex-wrap">
             <Wordmark href="/" />
             <div className="flex items-center gap-3 flex-wrap">
@@ -224,7 +224,7 @@ export default function App() {
         </nav>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 pt-10 pb-20">
+      <main className="max-w-7xl mx-auto px-6 pt-6 md:pt-10 pb-20">
         {view === "tables" && (
           <TablesView guests={guests} tables={tables} intros={intros} onRefresh={refresh} />
         )}

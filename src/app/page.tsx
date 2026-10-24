@@ -32,14 +32,10 @@ export default function Landing() {
             Be My Dinner Guest.
           </h1>
           <p className="mt-4 md:mt-7 text-[15px] leading-[1.55] text-secondary max-w-2xl">
-            You&apos;ve thrown thirty dinners. You remember maybe four of them
-            clearly.
-          </p>
-          <p className="mt-4 text-[15px] leading-[1.55] text-secondary max-w-2xl">
-            Be My Guest keeps the part that compounds: who sat where, who hit it
-            off, which introductions turned into a hire or a check, and who you
-            haven&apos;t seen since last spring. Import your contacts once.
-            Every table after that makes the next one better.
+            Every dinner you host should make the next one better. Be My Guest
+            tracks who sat where, which intros paid off, and who you
+            haven&apos;t seen lately. Import your contacts once and let it
+            compound.
           </p>
           <div className="mt-6 md:mt-10 flex items-center gap-5 flex-wrap">
             <Link

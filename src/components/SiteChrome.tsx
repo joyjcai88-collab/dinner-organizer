@@ -165,7 +165,7 @@ export default function SiteChrome({ name, home = "/" }: { name: string; home?: 
         Find<span className="sc-key-hint">&nbsp;[F]</span>
       </button>
       <div className="sc-clock" suppressHydrationWarning>{clock}</div>
-      <Script src="/luke.js?v=3" data-spot="menu" strategy="afterInteractive" />
+      <Script src="/luke.js?v=4" data-spot="menu" strategy="afterInteractive" />
 
       <div className={`sc-find${findOpen ? " is-open" : ""}`} aria-hidden={!findOpen} onClick={(e) => e.target === e.currentTarget && setFindOpen(false)}>
         <div className="sc-find-panel" role="dialog" aria-label="Find on joyjcai.com">

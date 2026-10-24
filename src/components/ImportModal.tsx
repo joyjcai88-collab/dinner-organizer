@@ -103,7 +103,7 @@ export default function ImportModal({ onClose, onImport }: Props) {
         </div>
       )}
 
-      <div className="flex gap-3 mt-10">
+      <div className="flex flex-wrap gap-3 mt-10">
         <div className="flex-1">
           <GhostButton onClick={onClose}>Cancel</GhostButton>
         </div>

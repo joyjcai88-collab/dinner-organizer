@@ -147,3 +147,6 @@
   .guests-table td:nth-child(5)::before { content: "Dinners"; }
   .guests-table td[colspan] { flex: 1 1 100%; padding: 48px 0; }
 }
+
+/* Small text buttons keep their look but get a finger-sized tap area */
+.tap { display: inline-block; padding-top: 10px; padding-bottom: 10px; margin-top: -10px; margin-bottom: -10px; }

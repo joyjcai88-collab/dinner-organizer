@@ -205,7 +205,7 @@ export default function LinkedInImport({
             </span>
             <button
               onClick={onDisconnect}
-              className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-danger transition-colors"
+              className="tap font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-danger transition-colors"
             >
               Disconnect
             </button>
@@ -220,7 +220,7 @@ export default function LinkedInImport({
             {connectState !== "not_configured" && (
               <button
                 onClick={onConnect}
-                className="font-mono text-[10px] uppercase tracking-[0.08em] text-secondary hover:text-accent transition-colors shrink-0 ml-3"
+                className="tap font-mono text-[10px] uppercase tracking-[0.08em] text-secondary hover:text-accent transition-colors shrink-0 ml-3"
               >
                 {connectState === "checking" ? "Checking…" : "Connect LinkedIn"}
               </button>
@@ -349,13 +349,13 @@ export default function LinkedInImport({
             <div className="flex gap-4">
               <button
                 onClick={() => setSelected(new Set(results.map((_, i) => i)))}
-                className="font-mono text-[10px] uppercase tracking-[0.08em] text-secondary hover:text-accent transition-colors"
+                className="tap font-mono text-[10px] uppercase tracking-[0.08em] text-secondary hover:text-accent transition-colors"
               >
                 Select all
               </button>
               <button
                 onClick={() => setSelected(new Set())}
-                className="font-mono text-[10px] uppercase tracking-[0.08em] text-secondary hover:text-accent transition-colors"
+                className="tap font-mono text-[10px] uppercase tracking-[0.08em] text-secondary hover:text-accent transition-colors"
               >
                 Clear
               </button>
@@ -397,7 +397,7 @@ export default function LinkedInImport({
         </div>
       )}
 
-      <div className="flex gap-3 mt-10">
+      <div className="flex flex-wrap gap-3 mt-10">
         <div className="flex-1">
           <GhostButton onClick={onClose}>Cancel</GhostButton>
         </div>

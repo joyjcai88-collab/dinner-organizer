@@ -39,7 +39,7 @@ export default function PrivacyPage() {
           <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted mb-7">
             Privacy · Updated {UPDATED}
           </p>
-          <h1 className="font-serif font-normal text-[18px] min-[431px]:text-[20px] md:text-[28px] leading-[1.15] tracking-[-0.025em] text-text">
+          <h1 className="font-serif font-normal text-[min(18px,4.8vw)] min-[431px]:text-[20px] md:text-[28px] leading-[1.15] tracking-[-0.025em] text-text">
             What this app stores.
           </h1>
           <p className="mt-7 text-[15px] leading-[1.55] text-secondary">
@@ -173,7 +173,7 @@ export default function PrivacyPage() {
           <div className="border-t border-line mt-12 pt-7">
             <Link
               href="/"
-              className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-text transition-colors"
+              className="tap font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-text transition-colors"
             >
               Back to Be My Guest
             </Link>

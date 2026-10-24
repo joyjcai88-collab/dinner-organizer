@@ -118,7 +118,7 @@ export default function RecapModal({ table, guests, onClose, onSave }: Props) {
                 <button
                   type="button"
                   onClick={() => setRows((rs) => (rs.length > 1 ? rs.filter((x) => x.key !== r.key) : [emptyRow()]))}
-                  className="col-span-2 md:col-span-1 justify-self-start md:justify-self-end pb-2.5 font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-danger transition-colors"
+                  className="tap col-span-2 md:col-span-1 justify-self-start md:justify-self-end pb-2.5 font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-danger transition-colors"
                 >
                   Remove
                 </button>
@@ -136,7 +136,7 @@ export default function RecapModal({ table, guests, onClose, onSave }: Props) {
             <button
               type="button"
               onClick={() => setRows((rs) => [...rs, emptyRow()])}
-              className="font-mono text-[10px] uppercase tracking-[0.08em] text-secondary hover:text-accent transition-colors"
+              className="tap font-mono text-[10px] uppercase tracking-[0.08em] text-secondary hover:text-accent transition-colors"
             >
               + Another intro
             </button>

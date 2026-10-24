@@ -259,13 +259,13 @@ export default function EmailGuestsModal({
           <button
             onClick={handleCopyAddresses}
             disabled={selectedCount === 0}
-            className="font-mono text-[10px] uppercase tracking-[0.08em] text-secondary hover:text-accent disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="tap font-mono text-[10px] uppercase tracking-[0.08em] text-secondary hover:text-accent disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
           >
             {copiedAddresses ? "Copied" : "Copy addresses"}
           </button>
           <button
             onClick={handleCopyMessage}
-            className="font-mono text-[10px] uppercase tracking-[0.08em] text-secondary hover:text-accent transition-colors"
+            className="tap font-mono text-[10px] uppercase tracking-[0.08em] text-secondary hover:text-accent transition-colors"
           >
             {copiedMessage ? "Copied" : "Copy message"}
           </button>
@@ -290,7 +290,7 @@ export default function EmailGuestsModal({
         )}
       </div>
 
-      <div className="flex gap-3 mt-10">
+      <div className="flex flex-wrap gap-3 mt-10">
         <div className="flex-1">
           <GhostButton onClick={onClose}>Cancel</GhostButton>
         </div>

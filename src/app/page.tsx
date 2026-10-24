@@ -28,7 +28,7 @@ export default function Landing() {
       {/* Hero */}
       <section className="border-b border-line">
         <div className="max-w-[1228px] mx-auto px-6 pt-6 pb-10 md:pt-10 md:pb-16">
-          <h1 className="font-serif font-normal text-[18px] min-[431px]:text-[20px] md:text-[28px] leading-[1.1] tracking-[-0.03em] text-text">
+          <h1 className="font-serif font-normal text-[min(18px,4.8vw)] min-[431px]:text-[20px] md:text-[28px] leading-[1.1] tracking-[-0.03em] text-text">
             Be My Dinner Guest.
           </h1>
           <p className="mt-4 md:mt-7 text-[15px] leading-[1.55] text-secondary max-w-2xl">
@@ -79,13 +79,13 @@ export default function Landing() {
           <div className="flex items-center gap-6">
             <Link
               href="/privacy"
-              className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-text transition-colors"
+              className="tap font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-text transition-colors"
             >
               Privacy
             </Link>
             <Link
               href="/app"
-              className="font-mono text-[10px] uppercase tracking-[0.08em] text-secondary hover:text-accent transition-colors"
+              className="tap font-mono text-[10px] uppercase tracking-[0.08em] text-secondary hover:text-accent transition-colors"
             >
               Open the app →
             </Link>

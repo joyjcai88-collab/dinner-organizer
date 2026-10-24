@@ -177,7 +177,7 @@ export default function GuestModal({ editing, onClose, onSave }: Props) {
         </div>
       </div>
 
-      <div className="flex gap-3 mt-10">
+      <div className="flex flex-wrap gap-3 mt-10">
         <div className="flex-1">
           <GhostButton onClick={onClose}>Cancel</GhostButton>
         </div>

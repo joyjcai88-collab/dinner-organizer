@@ -117,14 +117,14 @@ export default function TableModal({ editing, guests, onClose, onSave }: Props) 
             {guests.map((g) => (
               <label
                 key={g.id}
-                className="flex items-center gap-3 px-3 py-2.5 text-[14.5px] cursor-pointer hover:bg-tile transition-colors"
+                className="flex flex-wrap items-center gap-x-3 gap-y-1 px-3 py-2.5 text-[14.5px] cursor-pointer hover:bg-tile transition-colors"
               >
                 <input
                   type="checkbox"
                   checked={form.guestIds.includes(g.id)}
                   onChange={() => toggleGuest(g.id)}
                 />
-                <span className="flex-1 text-text">{g.name}</span>
+                <span className="flex-1 min-w-[7rem] text-text">{g.name}</span>
                 <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted">
                   {g.company}
                 </span>
@@ -144,7 +144,7 @@ export default function TableModal({ editing, guests, onClose, onSave }: Props) 
         </div>
       </div>
 
-      <div className="flex gap-3 mt-10">
+      <div className="flex flex-wrap gap-3 mt-10">
         <div className="flex-1">
           <GhostButton onClick={onClose}>Cancel</GhostButton>
         </div>

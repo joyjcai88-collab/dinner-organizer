@@ -166,7 +166,7 @@ export function LinkButton({
   return (
     <button
       onClick={onClick}
-      className="font-mono text-[10px] uppercase tracking-[0.08em] text-secondary hover:text-accent transition-colors"
+      className="tap font-mono text-[10px] uppercase tracking-[0.08em] text-secondary hover:text-accent transition-colors"
     >
       {children}
     </button>

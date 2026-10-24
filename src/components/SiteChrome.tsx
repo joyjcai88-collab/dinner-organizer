@@ -147,7 +147,7 @@ export default function SiteChrome({ name, home = "/" }: { name: string; home?: 
             <a key={p.t} href={p.url}>{p.t}</a>
           ))}
           <div className="sc-menu-sub">
-            <a href="https://www.linkedin.com/in/joycai12/" target="_blank" rel="noopener">LinkedIn &nearr;</a>
+            <a href="https://www.linkedin.com/in/joycai12/" target="_blank" rel="noopener">LinkedIn ↗</a>
           </div>
         </nav>
       </div>

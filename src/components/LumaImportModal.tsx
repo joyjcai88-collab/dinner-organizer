@@ -301,7 +301,7 @@ export default function LumaImportModal({ guests, tables, onClose, onImported }:
               setApiEvents(null);
               setError("");
             }}
-            className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-text transition-colors"
+            className="tap font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-text transition-colors"
           >
             ← Start over
           </button>
@@ -314,7 +314,7 @@ export default function LumaImportModal({ guests, tables, onClose, onImported }:
         </p>
       )}
 
-      <div className="flex gap-3 mt-10">
+      <div className="flex flex-wrap gap-3 mt-10">
         <div className="flex-1">
           <GhostButton onClick={onClose}>Cancel</GhostButton>
         </div>

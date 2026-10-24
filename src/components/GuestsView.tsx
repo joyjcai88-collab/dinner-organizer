@@ -214,7 +214,7 @@ export default function GuestsView({ guests, onRefresh }: Props) {
                       deleteGuest(g.id);
                       onRefresh();
                     }}
-                    className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-danger transition-colors"
+                    className="tap font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-danger transition-colors"
                   >
                     Remove
                   </button>

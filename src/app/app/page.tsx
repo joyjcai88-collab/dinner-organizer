@@ -156,11 +156,11 @@ export default function App() {
             <div className="flex items-center gap-3 flex-wrap">
               <button
                 onClick={handleBackup}
-                className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-text transition-colors"
+                className="tap font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-text transition-colors"
               >
                 Back up
               </button>
-              <label className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-text transition-colors cursor-pointer">
+              <label className="tap font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-text transition-colors cursor-pointer">
                 Restore
                 <input
                   type="file"
@@ -181,13 +181,13 @@ export default function App() {
                   </span>
                   <button
                     onClick={handleReset}
-                    className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-text transition-colors"
+                    className="tap font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-text transition-colors"
                   >
                     Reset demo
                   </button>
                   <button
                     onClick={handleStartFresh}
-                    className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-text transition-colors"
+                    className="tap font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-text transition-colors"
                   >
                     Start fresh
                   </button>
@@ -195,7 +195,7 @@ export default function App() {
               ) : (
                 <button
                   onClick={handleLoadDemo}
-                  className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-text transition-colors"
+                  className="tap font-mono text-[10px] uppercase tracking-[0.08em] text-muted hover:text-text transition-colors"
                 >
                   Load demo
                 </button>
@@ -206,7 +206,7 @@ export default function App() {
             {rollup}
           </p>
           <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted mt-1.5">
-            Saved in this browser only · <a href="/privacy" className="underline hover:text-text transition-colors">Privacy</a>
+            Saved in this browser only · <a href="/privacy" className="tap underline hover:text-text transition-colors">Privacy</a>
           </p>
         </div>
         <nav className="border-t border-line">

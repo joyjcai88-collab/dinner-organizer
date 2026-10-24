@@ -4,6 +4,7 @@
 // Pacific clock. Styles live in site-chrome.css. Number keys don't jump to other pages here,
 // so a stray key never leaves work in progress.
 
+import Script from "next/script";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 const SITE = "https://joyjcai.com";
@@ -164,6 +165,7 @@ export default function SiteChrome({ name, home = "/" }: { name: string; home?: 
         Find<span className="sc-key-hint">&nbsp;[F]</span>
       </button>
       <div className="sc-clock" suppressHydrationWarning>{clock}</div>
+      <Script src="/luke.js?v=1" strategy="afterInteractive" />
 
       <div className={`sc-find${findOpen ? " is-open" : ""}`} aria-hidden={!findOpen} onClick={(e) => e.target === e.currentTarget && setFindOpen(false)}>
         <div className="sc-find-panel" role="dialog" aria-label="Find on joyjcai.com">

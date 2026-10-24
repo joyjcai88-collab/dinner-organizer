@@ -4,6 +4,7 @@ import { useState } from "react";
 import { v4 as uuid } from "uuid";
 import { Guest, Role, SocialEnergy, ROLE_LABELS } from "@/lib/types";
 import { Modal, PrimaryButton, GhostButton, inputCls, labelCls } from "./ui";
+import Select from "./Select";
 
 interface Props {
   editing: Guest | null;
@@ -62,7 +63,7 @@ export default function GuestModal({ editing, onClose, onSave }: Props) {
         </div>
         <div>
           <label className={labelCls}>Role</label>
-          <select
+          <Select
             className={inputCls}
             value={form.role}
             onChange={(e) => set("role", e.target.value as Role)}
@@ -72,11 +73,11 @@ export default function GuestModal({ editing, onClose, onSave }: Props) {
                 {label}
               </option>
             ))}
-          </select>
+          </Select>
         </div>
         <div>
           <label className={labelCls}>Social energy</label>
-          <select
+          <Select
             className={inputCls}
             value={form.socialEnergy}
             onChange={(e) => set("socialEnergy", e.target.value as SocialEnergy)}
@@ -84,7 +85,7 @@ export default function GuestModal({ editing, onClose, onSave }: Props) {
             <option value="high">High: carries the table</option>
             <option value="medium">Medium</option>
             <option value="low">Low: needs drawing out</option>
-          </select>
+          </Select>
         </div>
         <div>
           <label className={labelCls}>Sector</label>
@@ -97,7 +98,7 @@ export default function GuestModal({ editing, onClose, onSave }: Props) {
         </div>
         <div>
           <label className={labelCls}>Stage</label>
-          <select
+          <Select
             className={inputCls}
             value={form.stage ?? ""}
             onChange={(e) => set("stage", e.target.value || null)}
@@ -107,7 +108,7 @@ export default function GuestModal({ editing, onClose, onSave }: Props) {
             <option value="seed">Seed</option>
             <option value="series-a">Series A</option>
             <option value="series-b">Series B+</option>
-          </select>
+          </Select>
         </div>
         <div>
           <label className={labelCls}>Relationship strength: {form.strength}/5</label>

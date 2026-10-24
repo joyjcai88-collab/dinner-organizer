@@ -5,6 +5,7 @@ import { Guest, Intro, IntroOutcome, Table, OUTCOMES } from "@/lib/types";
 import { upsertIntro, deleteIntro } from "@/lib/store";
 import IntroModal from "./IntroModal";
 import { OutcomeBadge, PrimaryButton, inputCls } from "./ui";
+import Select from "./Select";
 
 interface Props {
   guests: Guest[];
@@ -48,7 +49,7 @@ export default function IntrosView({ guests, tables, intros, onRefresh }: Props)
       </div>
 
       <div className="flex items-end gap-4 mb-8 flex-wrap">
-        <select
+        <Select
           value={filter}
           onChange={(e) => setFilter(e.target.value as IntroOutcome | "all")}
           className={`${inputCls} w-auto font-mono text-[10px] uppercase tracking-[0.08em] text-secondary`}
@@ -59,7 +60,7 @@ export default function IntrosView({ guests, tables, intros, onRefresh }: Props)
               {o}
             </option>
           ))}
-        </select>
+        </Select>
         <div className="flex-1" />
         <PrimaryButton
           onClick={() => {

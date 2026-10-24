@@ -4,6 +4,7 @@ import { useState } from "react";
 import { v4 as uuid } from "uuid";
 import { Guest, Table } from "@/lib/types";
 import { Modal, PrimaryButton, GhostButton, RoleBadge, inputCls, labelCls } from "./ui";
+import Select from "./Select";
 
 interface Props {
   editing: Table | null;
@@ -97,7 +98,7 @@ export default function TableModal({ editing, guests, onClose, onSave }: Props) 
         </div>
         <div>
           <label className={labelCls}>Co-host</label>
-          <select
+          <Select
             className={inputCls}
             value={form.coHost ?? ""}
             onChange={(e) => set("coHost", e.target.value || null)}
@@ -108,7 +109,7 @@ export default function TableModal({ editing, guests, onClose, onSave }: Props) 
                 {g.name}
               </option>
             ))}
-          </select>
+          </Select>
         </div>
         <div className="col-span-2">
           <label className={labelCls}>Guest list</label>

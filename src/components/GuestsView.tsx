@@ -17,6 +17,7 @@ import {
   GhostButton,
   inputCls,
 } from "./ui";
+import Select from "./Select";
 
 interface Props {
   guests: Guest[];
@@ -101,7 +102,7 @@ export default function GuestsView({ guests, onRefresh }: Props) {
           onChange={(e) => setSearch(e.target.value)}
           className={`${inputCls} w-full sm:w-72`}
         />
-        <select
+        <Select
           value={roleFilter}
           onChange={(e) => setRoleFilter(e.target.value as Role | "all")}
           className={`${inputCls} w-auto font-mono text-[10px] uppercase tracking-[0.08em] text-secondary`}
@@ -112,7 +113,7 @@ export default function GuestsView({ guests, onRefresh }: Props) {
               {label}s
             </option>
           ))}
-        </select>
+        </Select>
         <div className="flex-1" />
         <GhostButton onClick={() => setAdding(true)}>+ Add guest</GhostButton>
         {LOOKUP_ENABLED && (

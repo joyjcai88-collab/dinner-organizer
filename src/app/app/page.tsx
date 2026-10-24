@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import Wordmark from "@/components/Wordmark";
+import SiteChrome from "@/components/SiteChrome";
 import { Guest, Table, Intro } from "@/lib/types";
 import {
   ensureSeeded,
@@ -148,10 +148,11 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-paper">
+      <SiteChrome name="Be My Guest" />
       <header className="border-b border-line">
-        <div className="max-w-7xl mx-auto px-6 py-5 md:py-7">
+        <div className="max-w-[1228px] mx-auto px-6 pt-0 pb-4 md:pb-6">
           <div className="flex items-center justify-between gap-4 flex-wrap">
-            <Wordmark href="/" />
+            <span />
             <div className="flex items-center gap-3 flex-wrap">
               <button
                 onClick={handleBackup}
@@ -209,7 +210,7 @@ export default function App() {
           </p>
         </div>
         <nav className="border-t border-line">
-          <div className="max-w-7xl mx-auto px-6 flex flex-wrap gap-x-7">
+          <div className="max-w-[1228px] mx-auto px-6 flex flex-wrap gap-x-7">
             {NAV.map((n, i) => (
               <button
                 key={n.key}
@@ -224,7 +225,7 @@ export default function App() {
         </nav>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 pt-6 md:pt-10 pb-20">
+      <main className="max-w-[1228px] mx-auto px-6 pt-6 md:pt-10 pb-20">
         {view === "tables" && (
           <TablesView guests={guests} tables={tables} intros={intros} onRefresh={refresh} />
         )}

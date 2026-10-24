@@ -131,7 +131,7 @@ export function PrimaryButton({
       type={type ?? "button"}
       onClick={onClick}
       disabled={disabled}
-      className="rounded-full px-6 py-[11px] bg-ink text-paper font-mono text-[10.5px] uppercase tracking-[0.08em] hover:opacity-[0.82] disabled:opacity-30 disabled:cursor-not-allowed transition-opacity"
+      className="rounded-full px-6 py-[11px] bg-ink text-paper font-mono text-[13px] whitespace-nowrap hover:opacity-[0.82] disabled:opacity-30 disabled:cursor-not-allowed transition-opacity"
     >
       {children}
     </button>
@@ -148,7 +148,7 @@ export function GhostButton({
   return (
     <button
       onClick={onClick}
-      className="rounded-full px-6 py-[11px] bg-pill text-text font-mono text-[10.5px] uppercase tracking-[0.08em] hover:bg-pill-hi transition-colors"
+      className="rounded-full px-6 py-[11px] bg-pill text-text font-mono text-[13px] whitespace-nowrap hover:bg-pill-hi transition-colors"
     >
       {children}
     </button>

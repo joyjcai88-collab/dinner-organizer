@@ -131,7 +131,7 @@ export default function LumaImportModal({ guests, tables, onClose, onImported }:
   };
 
   const tabCls = (active: boolean) =>
-    `flex-1 rounded-full py-[11px] font-mono text-[10.5px] uppercase tracking-[0.08em] transition-colors ${
+    `flex-1 rounded-full py-[11px] font-mono text-[13px] transition-colors ${
       active
         ? "bg-ink text-paper"
         : "bg-pill text-secondary hover:bg-pill-hi"

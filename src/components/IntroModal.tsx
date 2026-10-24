@@ -4,6 +4,7 @@ import { useState } from "react";
 import { v4 as uuid } from "uuid";
 import { Guest, Intro, IntroOutcome, Table, OUTCOMES } from "@/lib/types";
 import { Modal, PrimaryButton, GhostButton, inputCls, labelCls } from "./ui";
+import Select from "./Select";
 
 interface Props {
   editing: Intro | null;
@@ -49,7 +50,7 @@ export default function IntroModal({
       <div className="space-y-5">
         <div>
           <label className={labelCls}>At which table</label>
-          <select
+          <Select
             className={inputCls}
             value={form.tableId}
             onChange={(e) => {
@@ -63,12 +64,12 @@ export default function IntroModal({
                 {t.name} · {t.date}
               </option>
             ))}
-          </select>
+          </Select>
         </div>
         <div className="grid grid-cols-2 gap-x-6 gap-y-5">
           <div>
             <label className={labelCls}>Introduced</label>
-            <select
+            <Select
               className={inputCls}
               value={form.a}
               onChange={(e) => set("a", e.target.value)}
@@ -79,11 +80,11 @@ export default function IntroModal({
                   {g.name}
                 </option>
               ))}
-            </select>
+            </Select>
           </div>
           <div>
             <label className={labelCls}>To</label>
-            <select
+            <Select
               className={inputCls}
               value={form.b}
               onChange={(e) => set("b", e.target.value)}
@@ -94,12 +95,12 @@ export default function IntroModal({
                   {g.name}
                 </option>
               ))}
-            </select>
+            </Select>
           </div>
         </div>
         <div>
           <label className={labelCls}>Outcome so far</label>
-          <select
+          <Select
             className={inputCls}
             value={form.outcome}
             onChange={(e) => set("outcome", e.target.value as IntroOutcome)}
@@ -109,7 +110,7 @@ export default function IntroModal({
                 {o}
               </option>
             ))}
-          </select>
+          </Select>
         </div>
         <div>
           <label className={labelCls}>Detail</label>

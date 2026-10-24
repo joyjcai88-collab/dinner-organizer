@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import Wordmark from "@/components/Wordmark";
+import SiteChrome from "@/components/SiteChrome";
 
 export const metadata: Metadata = {
   title: "Privacy · Be My Guest",
@@ -32,11 +32,7 @@ function Section({
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-paper flex flex-col">
-      <header className="border-b border-line">
-        <div className="max-w-3xl mx-auto px-6 py-7">
-          <Wordmark href="/" />
-        </div>
-      </header>
+      <SiteChrome name="Be My Guest" />
 
       <main className="flex-1">
         <div className="max-w-3xl mx-auto px-6 py-16">

@@ -73,7 +73,7 @@ function Section({
   return (
     <div className="mb-12">
       <div className="flex items-baseline gap-4 mb-4 flex-wrap">
-        <h2 className="font-serif font-normal text-[26px] tracking-[-0.025em] text-text">
+        <h2 className="font-serif font-normal text-[20px] md:text-[24px] tracking-[-0.025em] text-text">
           {title}
         </h2>
         <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted">

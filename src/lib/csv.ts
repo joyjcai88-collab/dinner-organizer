@@ -105,6 +105,7 @@ export function exportGuestsCSV(guests: Guest[]): string {
       "Social Energy": g.socialEnergy,
       Hosted: g.hosted,
       "Last Seen": g.lastSeen || "",
+      Dietary: [...(g.dietary ?? []), ...(g.dietaryOther ? [g.dietaryOther] : [])].join("; "),
       Notes: g.notes || "",
     }))
   );

@@ -37,7 +37,7 @@ export default function IntrosView({ guests, tables, intros, onRefresh }: Props)
     <div>
       {/* The slide */}
       <div className="border border-line rounded-none p-6 md:p-8 mb-8">
-        <p className="font-serif font-normal text-[26px] md:text-[32px] leading-[1.2] tracking-[-0.025em] text-text">
+        <p className="font-serif font-normal text-[20px] md:text-[24px] leading-[1.25] tracking-[-0.025em] text-text">
           {tables.length} {tables.length === 1 ? "dinner" : "dinners"} ·{" "}
           {guests.length} {guests.length === 1 ? "guest" : "guests"} ·{" "}
           {intros.length} {intros.length === 1 ? "intro" : "intros"} logged ·{" "}

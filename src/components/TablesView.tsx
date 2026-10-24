@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Guest, Intro, Table } from "@/lib/types";
+import { Attendance, ATTENDANCE_LABELS, Guest, Intro, Table } from "@/lib/types";
 import { upsertTable, deleteTable, upsertIntro, upsertGuest } from "@/lib/store";
 import {
   proposeSeating,
@@ -15,6 +15,19 @@ import TableModal from "./TableModal";
 import IntroModal from "./IntroModal";
 import LumaImportModal from "./LumaImportModal";
 import EmailGuestsModal from "./EmailGuestsModal";
+import RecapModal from "./RecapModal";
+import Select from "./Select";
+import {
+  applyRecap,
+  attendanceCounts,
+  dietaryLine,
+  dietarySummary,
+  isComing,
+  recapDue,
+  recapDueRecently,
+  statusOf,
+  venueNote,
+} from "@/lib/attendance";
 import {
   RoleBadge,
   OutcomeBadge,
@@ -60,6 +73,7 @@ export default function TablesView({ guests, tables, intros, onRefresh }: Props)
   const [introOpen, setIntroOpen] = useState(false);
   const [lumaOpen, setLumaOpen] = useState(false);
   const [emailOpen, setEmailOpen] = useState(false);
+  const [recapOpen, setRecapOpen] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
 
   const table = sorted.find((t) => t.id === (selectedId ?? defaultId)) ?? null;
@@ -68,6 +82,14 @@ export default function TablesView({ guests, tables, intros, onRefresh }: Props)
     () => (table ? table.guestIds.map((id) => byId.get(id)).filter((g): g is Guest => !!g) : []),
     [table, byId]
   );
+
+  // Declined guests stay on the list but don't get a seat
+  const comingGuests = useMemo(
+    () => (table ? tableGuests.filter((g) => isComing(statusOf(table, g.id))) : []),
+    [table, tableGuests]
+  );
+
+  const dietary = useMemo(() => (table ? dietarySummary(table, guests) : null), [table, guests]);
 
   const tableIntros = useMemo(
     () => (table ? intros.filter((i) => i.tableId === table.id) : []),
@@ -96,9 +118,9 @@ export default function TablesView({ guests, tables, intros, onRefresh }: Props)
 
   const invites = useMemo(() => {
     if (!table || table.status !== "upcoming") return [];
-    if (table.guestIds.length >= table.seats) return [];
+    if (comingGuests.length >= table.seats) return [];
     return suggestInvites(table, guests, tables).slice(0, 3);
-  }, [table, guests, tables]);
+  }, [table, guests, tables, comingGuests]);
 
   const showToast = (msg: string) => {
     setToast(msg);
@@ -106,8 +128,8 @@ export default function TablesView({ guests, tables, intros, onRefresh }: Props)
   };
 
   const handlePropose = () => {
-    if (!table || tableGuests.length < 3) return;
-    const p = proposeSeating(tableGuests, tables);
+    if (!table || comingGuests.length < 3) return;
+    const p = proposeSeating(comingGuests, tables);
     setProposal({ tableId: table.id, order: p.order, notes: p.notes });
   };
 
@@ -135,6 +157,36 @@ export default function TablesView({ guests, tables, intros, onRefresh }: Props)
     try {
       await navigator.clipboard.writeText(lines.join("\n"));
       showToast("Guest list copied.");
+    } catch {
+      showToast("Couldn't reach the clipboard.");
+    }
+  };
+
+  // Before the dinner: track RSVPs. After it, attendance changes go through the recap so
+  // dinner counts stay right.
+  const handleStatus = (g: Guest, status: Attendance) => {
+    if (!table) return;
+    upsertTable({ ...table, attendance: { ...table.attendance, [g.id]: status }, seating: status === "declined" ? null : table.seating });
+    setProposal(null);
+    onRefresh();
+  };
+
+  const handleRecap = (statuses: Record<string, Attendance>, newIntros: Intro[], note: string | null) => {
+    if (!table) return;
+    const { table: done, changed } = applyRecap(table, statuses, guests, note);
+    changed.forEach(upsertGuest);
+    upsertTable(done);
+    newIntros.forEach(upsertIntro);
+    onRefresh();
+    const cameN = Object.values(statuses).filter((s) => s === "attended").length;
+    showToast(`Recap saved: ${cameN} came, ${newIntros.length} ${newIntros.length === 1 ? "intro" : "intros"} logged.`);
+  };
+
+  const handleCopyVenue = async () => {
+    if (!table || !dietary) return;
+    try {
+      await navigator.clipboard.writeText(venueNote(table, dietary));
+      showToast("Dietary note copied.");
     } catch {
       showToast("Couldn't reach the clipboard.");
     }
@@ -185,9 +237,14 @@ export default function TablesView({ guests, tables, intros, onRefresh }: Props)
                 <p className="font-serif text-[18px] text-text leading-snug">
                   {t.name}
                 </p>
-                {t.status === "upcoming" && (
+                {t.status === "upcoming" && !recapDue(t) && (
                   <span className="rounded-full bg-success-dim text-success font-mono text-[9.5px] uppercase tracking-[0.08em] px-2.5 py-0.5 shrink-0">
                     Upcoming
+                  </span>
+                )}
+                {recapDueRecently(t) && (
+                  <span className="rounded-full bg-ink text-paper font-mono text-[9.5px] uppercase tracking-[0.08em] px-2.5 py-0.5 shrink-0">
+                    Recap
                   </span>
                 )}
               </div>
@@ -204,7 +261,7 @@ export default function TablesView({ guests, tables, intros, onRefresh }: Props)
         <div className="bg-card border border-line rounded-none p-6 md:p-8">
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div>
-              <h2 className="font-serif font-normal text-[32px] leading-[1.1] tracking-[-0.025em] text-text">
+              <h2 className="font-serif font-normal text-[20px] md:text-[24px] leading-[1.15] tracking-[-0.025em] text-text">
                 {table.name}
               </h2>
               <p className="font-mono text-[10.5px] uppercase tracking-[0.08em] text-muted mt-3">
@@ -237,6 +294,27 @@ export default function TablesView({ guests, tables, intros, onRefresh }: Props)
               </button>
             </div>
           </div>
+
+          {/* After the dinner */}
+          {recapDue(table) ? (
+            <div className="mt-6 border border-ink px-5 py-4 flex items-center justify-between gap-4 flex-wrap">
+              <div>
+                <p className="font-serif text-[18px] text-text">How did it go?</p>
+                <p className="text-[14.5px] text-secondary mt-1">
+                  Confirm who came and log the intros made, while it&apos;s fresh.
+                </p>
+              </div>
+              <PrimaryButton onClick={() => setRecapOpen(true)}>Start recap</PrimaryButton>
+            </div>
+          ) : table.recapDone ? (
+            <div className="mt-5 flex items-center gap-4 flex-wrap">
+              <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted">
+                Recap done · {attendanceCounts(table).attended ?? 0} came
+                {attendanceCounts(table)["no-show"] ? ` · ${attendanceCounts(table)["no-show"]} no-show` : ""}
+              </p>
+              <LinkButton onClick={() => setRecapOpen(true)}>Edit recap</LinkButton>
+            </div>
+          ) : null}
 
           {/* Seating */}
           <div className="mt-8">
@@ -300,7 +378,7 @@ export default function TablesView({ guests, tables, intros, onRefresh }: Props)
                     </span>
                   ))}
                 </div>
-                {tableGuests.length >= 3 && table.status === "upcoming" && (
+                {comingGuests.length >= 3 && table.status === "upcoming" && (
                   <PrimaryButton onClick={handlePropose}>
                     Propose seating
                   </PrimaryButton>
@@ -309,11 +387,86 @@ export default function TablesView({ guests, tables, intros, onRefresh }: Props)
             )}
           </div>
 
+          {/* Guests and where each one stands */}
+          {tableGuests.length > 0 && (
+            <div className="mt-8 border-t border-line pt-6">
+              <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted mb-3">
+                {table.status === "upcoming" ? "Guests & RSVPs" : "Who came"} ·{" "}
+                {Object.entries(attendanceCounts(table))
+                  .map(([s, n]) => `${n} ${ATTENDANCE_LABELS[s as Attendance].toLowerCase()}`)
+                  .join(" · ")}
+              </p>
+              <ul className="divide-y divide-line border-y border-line">
+                {tableGuests.map((g) => {
+                  const st = statusOf(table, g.id);
+                  return (
+                    <li key={g.id} className="flex items-center justify-between gap-3 py-2 flex-wrap">
+                      <span className="flex items-center gap-2 min-w-0">
+                        <span className={`font-serif text-[16px] truncate ${isComing(st) ? "text-text" : "text-muted line-through decoration-line"}`}>
+                          {g.name}
+                        </span>
+                        <RoleBadge role={g.role} />
+                      </span>
+                      {table.status === "upcoming" && !recapDue(table) ? (
+                        <span className="w-[150px]">
+                          <Select
+                            value={st}
+                            onChange={(e) => handleStatus(g, e.target.value as Attendance)}
+                            aria-label={`${g.name} RSVP`}
+                          >
+                            <option value="invited">Invited</option>
+                            <option value="confirmed">Confirmed</option>
+                            <option value="declined">Declined</option>
+                          </Select>
+                        </span>
+                      ) : (
+                        <span className="font-mono text-[10.5px] uppercase tracking-[0.08em] text-secondary">
+                          {ATTENDANCE_LABELS[st]}
+                        </span>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
+
+          {/* Dietary needs, ready to send the venue */}
+          {dietary && dietary.coming > 0 && (
+            <div className="mt-8 border-t border-line pt-6">
+              <div className="flex items-start justify-between gap-4 flex-wrap">
+                <div>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted">
+                    For the venue · {dietary.coming} guests
+                  </p>
+                  <p className="font-serif text-[18px] text-text mt-2">
+                    {dietaryLine(dietary) || "No dietary needs noted"}
+                  </p>
+                  {(dietary.needs.length > 0 || dietary.other.length > 0) && (
+                    <ul className="mt-2 space-y-1">
+                      {dietary.needs.map((n) => (
+                        <li key={n.need} className="text-[14.5px] text-secondary">
+                          <span className="text-text">{n.need}:</span> {n.names.join(", ")}
+                        </li>
+                      ))}
+                      {dietary.other.map((o) => (
+                        <li key={o.name} className="text-[14.5px] text-secondary">
+                          <span className="text-text">{o.name}:</span> {o.text}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                <GhostButton onClick={handleCopyVenue}>Copy for the venue</GhostButton>
+              </div>
+            </div>
+          )}
+
           {/* Suggested invites for open seats */}
           {invites.length > 0 && (
             <div className="mt-8 border-t border-line pt-6">
               <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted mb-4">
-                {table.seats - table.guestIds.length} seats open · suggested invites
+                {table.seats - comingGuests.length} seats open · suggested invites
               </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 {invites.map((g) => (
@@ -435,6 +588,14 @@ export default function TablesView({ guests, tables, intros, onRefresh }: Props)
           }}
         />
       )}
+      {recapOpen && table && (
+        <RecapModal
+          table={table}
+          guests={tableGuests}
+          onClose={() => setRecapOpen(false)}
+          onSave={handleRecap}
+        />
+      )}
       {introOpen && table && (
         <IntroModal
           editing={null}
@@ -449,7 +610,7 @@ export default function TablesView({ guests, tables, intros, onRefresh }: Props)
         />
       )}
       {toast && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-ink text-paper rounded-none px-5 py-3 text-[14.5px] z-50">
+        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 bg-ink text-paper rounded-none px-5 py-3 text-[14.5px] z-[150]">
           {toast}
         </div>
       )}

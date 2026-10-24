@@ -34,17 +34,30 @@ const g = (
 
 // One dinner, the people who were at it, and what came of it. Enough to show
 // how the app works without looking like someone else's half-finished CRM.
-export const DEMO_GUESTS: Guest[] = [
-  g("g1", "Priya Raghunathan", "founder", "Loomwork", "devtools", "seed", 5, "high", 4, "2026-07-11", "Vegetarian. Great connector: seat her near anyone shy."),
+const DEMO_GUESTS_BASE: Guest[] = [
+  g("g1", "Priya Raghunathan", "founder", "Loomwork", "devtools", "seed", 5, "high", 4, "2026-07-11", "Great connector: seat her near anyone shy."),
   g("g2", "Marcus Oyelaran", "engineer", "Stripe", "fintech", null, 4, "medium", 3, "2026-07-11", "Always ~20 min late. Wants to found something in 2027."),
-  g("g3", "Dana Whitfield", "vc", "Kestrel Capital", "healthtech", "seed", 5, "high", 6, "2026-07-11", "No alcohol. Will co-host: has offered twice."),
-  g("g5", "Aisha Nkemdirim", "operator", "Ramp", "fintech", null, 4, "high", 2, "2026-06-19", "Shellfish allergy: flag it with the venue every time."),
-  g("g8", "Rosalie Duchamp", "engineer", "Anthropic", "ai", null, 3, "low", 1, "2026-06-19", "Gluten-free. Deep on evals."),
+  g("g3", "Dana Whitfield", "vc", "Kestrel Capital", "healthtech", "seed", 5, "high", 6, "2026-07-11", "Will co-host: has offered twice."),
+  g("g5", "Aisha Nkemdirim", "operator", "Ramp", "fintech", null, 4, "high", 2, "2026-06-19", "Flag her allergy with the venue every time."),
+  g("g8", "Rosalie Duchamp", "engineer", "Anthropic", "ai", null, 3, "low", 1, "2026-06-19", "Deep on evals."),
   g("g9", "Samuel Achebe", "founder", "Northgate AI", "ai", "series-a", 4, "high", 3, "2026-07-11", "Hires out of these dinners. Ask about his open roles."),
   g("g12", "Helena Vasquez", "vc", "Two Rivers", "ai", "seed", 4, "medium", 2, "2026-07-11", null),
   g("g13", "Caleb Whitmore", "engineer", "Vercel", "devtools", null, 3, "high", 2, "2026-06-19", null),
   g("g14", "Noor Hadid", "founder", "Skiff Logistics", "logistics", "seed", 2, "medium", 1, "2026-01-28", "Overdue. Raising in Q4."),
 ];
+
+// Structured dietary needs, so the demo table shows its note for the venue
+const DEMO_DIETARY: Record<string, Guest["dietary"]> = {
+  g1: ["Vegetarian"],
+  g3: ["No alcohol"],
+  g5: ["Shellfish allergy"],
+  g8: ["Gluten-free"],
+};
+
+export const DEMO_GUESTS: Guest[] = DEMO_GUESTS_BASE.map((guest) => ({
+  ...guest,
+  dietary: DEMO_DIETARY[guest.id] ?? [],
+}));
 
 export const DEMO_TABLES: Table[] = [
   {

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { v4 as uuid } from "uuid";
-import { Guest, Role, SocialEnergy, ROLE_LABELS } from "@/lib/types";
+import { DIETARY, Dietary, Guest, Role, SocialEnergy, ROLE_LABELS } from "@/lib/types";
 import { Modal, PrimaryButton, GhostButton, inputCls, labelCls } from "./ui";
 import Select from "./Select";
 
@@ -131,15 +131,48 @@ export default function GuestModal({ editing, onClose, onSave }: Props) {
           />
         </div>
         <div className="col-span-2">
+          <p className={labelCls}>Dietary</p>
+          <div className="flex flex-wrap gap-2 mt-2" role="group" aria-label="Dietary needs">
+            {DIETARY.map((d) => {
+              const on = (form.dietary ?? []).includes(d);
+              return (
+                <button
+                  key={d}
+                  type="button"
+                  aria-pressed={on}
+                  onClick={() =>
+                    set(
+                      "dietary",
+                      on ? (form.dietary ?? []).filter((x) => x !== d) : [...(form.dietary ?? []), d as Dietary]
+                    )
+                  }
+                  className={`rounded-full px-3 py-1.5 font-mono text-[12px] whitespace-nowrap transition-colors ${
+                    on ? "bg-ink text-paper" : "bg-pill text-secondary hover:bg-pill-hi"
+                  }`}
+                >
+                  {d}
+                </button>
+              );
+            })}
+          </div>
+          <input
+            className={`${inputCls} mt-3`}
+            value={form.dietaryOther ?? ""}
+            onChange={(e) => set("dietaryOther", e.target.value || null)}
+            placeholder="Anything else the kitchen should know (other allergies, low FODMAP)"
+            aria-label="Other dietary needs"
+          />
+        </div>
+        <div className="col-span-2">
           <label className={labelCls}>
-            Table memory (dietary, habits, seating flags)
+            Table memory (habits, seating flags)
           </label>
           <textarea
             className={inputCls}
             rows={3}
             value={form.notes ?? ""}
             onChange={(e) => set("notes", e.target.value || null)}
-            placeholder="Vegetarian. Arrives late. Don't seat near press."
+            placeholder="Arrives late. Don't seat near press."
           />
         </div>
       </div>

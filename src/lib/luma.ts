@@ -129,6 +129,7 @@ export function applyLumaImport(plan: ImportPlan): string {
     seats: Math.max(guestIds.length, 2),
     status: plan.isPast ? "past" : "upcoming",
     guestIds,
+    counted: plan.isPast ? guestIds : [],
     seating: null,
     note: "Imported from Luma.",
   };

@@ -28,7 +28,7 @@ export default function Landing() {
       {/* Hero */}
       <section className="border-b border-line">
         <div className="max-w-[1228px] mx-auto px-6 pt-6 pb-10 md:pt-10 md:pb-16">
-          <h1 className="font-serif font-normal text-[32px] md:text-[52px] leading-[1.05] tracking-[-0.03em] text-text">
+          <h1 className="font-serif font-normal text-[18px] min-[431px]:text-[20px] md:text-[28px] leading-[1.1] tracking-[-0.03em] text-text">
             Be My Dinner Guest.
           </h1>
           <p className="mt-4 md:mt-7 text-[15px] leading-[1.55] text-secondary max-w-2xl">

@@ -16,8 +16,36 @@ export interface Guest {
   hosted: number; // dinners attended
   lastSeen: string | null; // ISO date
   notes: string | null; // table memory: dietary, habits, seating flags
+  dietary?: Dietary[]; // structured needs, summarised per table for the venue
+  dietaryOther?: string | null; // anything the list doesn't cover
   createdAt: string;
 }
+
+export const DIETARY = [
+  "Vegetarian",
+  "Vegan",
+  "Pescatarian",
+  "Gluten-free",
+  "Dairy-free",
+  "Nut allergy",
+  "Shellfish allergy",
+  "Halal",
+  "Kosher",
+  "No alcohol",
+] as const;
+
+export type Dietary = (typeof DIETARY)[number];
+
+/** Where a guest stands for one table: RSVP before the dinner, attendance after. */
+export type Attendance = "invited" | "confirmed" | "declined" | "attended" | "no-show";
+
+export const ATTENDANCE_LABELS: Record<Attendance, string> = {
+  invited: "Invited",
+  confirmed: "Confirmed",
+  declined: "Declined",
+  attended: "Came",
+  "no-show": "No-show",
+};
 
 export interface Table {
   id: string;
@@ -30,6 +58,11 @@ export interface Table {
   guestIds: string[];
   seating: string[] | null; // guest ids in order around the table
   note: string | null;
+  attendance?: Record<string, Attendance>; // guest id → status; missing means the default for the table
+  recapDone?: boolean; // the after-dinner recap has been filled in
+  /** Guest ids whose attendance is already reflected in their dinner count and last seen.
+   *  Missing on tables made before attendance existed: treated as everyone on a past table. */
+  counted?: string[];
 }
 
 export const OUTCOMES = [
